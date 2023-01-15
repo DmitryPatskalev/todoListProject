@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import './App.css';
-import { TodoList} from "./component/TodoList";
+import {TodoList} from "./component/TodoList";
 import {v1} from "uuid";
 import {TasksType} from "./component/Tasks";
 import {FilterValueType} from "./component/ButtonFilterTasks";
@@ -18,9 +18,10 @@ function App() {
 
 	 const [tasks, setTasks] = useState<Array<TasksType>>(tasksArray)
 	 const [filter, setFilter] = useState<FilterValueType>('All')
+	 const [taskTitle, setTaskTitle] = useState<string>('')
 
-	 const removeTask = (id: string) => {
-			setTasks(tasks.filter(t => t.id !== id))
+	 const removeTask = (taskId: string) => {
+			setTasks(tasks.filter(t => t.id !== taskId))
 	 }
 
 	 let taskForTodolist = tasks
@@ -34,15 +35,31 @@ function App() {
 	 const changeFilterTask = (value: FilterValueType) => {
 			setFilter(value)
 	 }
+	 const addTask = (title: string) => {
+			let newTask = {
+				 id: v1(),
+				 title,
+				 isDone: false
+			}
+			setTasks([newTask, ...tasks])
+			setTaskTitle('')
+	 }
+
+	 const onChangeHundler = (event: ChangeEvent<HTMLInputElement>) => {
+			setTaskTitle(event.currentTarget.value)
+	 }
 
 
 	 return (
 		 <div className="App">
 				<TodoList
-					title='What I Learn'
+					todoListTitle='What I Learn'
 					tasks={taskForTodolist}
 					removeTask={removeTask}
 					changeFilterTask={changeFilterTask}
+					addTask={addTask}
+					onChangeHundler={onChangeHundler}
+					taskTitle={taskTitle}
 				/>
 		 </div>
 	 );
