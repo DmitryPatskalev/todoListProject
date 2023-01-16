@@ -49,6 +49,10 @@ function App() {
 			setTaskTitle(event.currentTarget.value)
 	 }
 
+	 const changeTaskStatus = (taskId: string, isDone: boolean) => {
+			setTasks(tasks.map(t => t.id === taskId ? {...t, isDone} : t))
+	 }
+
 
 	 return (
 		 <div className="App">
@@ -60,6 +64,8 @@ function App() {
 					addTask={addTask}
 					onChangeHundler={onChangeHundler}
 					taskTitle={taskTitle}
+					changeTaskStatus={changeTaskStatus}
+					filter={filter}
 				/>
 		 </div>
 	 );
