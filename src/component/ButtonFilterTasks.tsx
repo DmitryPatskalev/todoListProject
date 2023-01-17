@@ -4,20 +4,21 @@ import React from 'react';
 export type FilterValueType = 'All' | 'Active' | 'Completed'
 
 export type FilterChangeTasksType = {
-	 changeFilterTask: (value: FilterValueType) => void
+	 todoListId: string
+	 changeFilterTask: (todoListId: string, value: FilterValueType) => void
 	 filter: FilterValueType
 }
 
-export const ButtonFilterTasks: React.FC<FilterChangeTasksType> = ({changeFilterTask, filter}) => {
+export const ButtonFilterTasks: React.FC<FilterChangeTasksType> = ({changeFilterTask, filter, todoListId}) => {
 
 	 const onAllButton = () => {
-			changeFilterTask('All')
+			changeFilterTask(todoListId, 'All')
 	 }
 	 const onActiveButton = () => {
-			changeFilterTask('Active')
+			changeFilterTask(todoListId, 'Active')
 	 }
 	 const onCompletedButton = () => {
-			changeFilterTask('Completed')
+			changeFilterTask(todoListId, 'Completed')
 	 }
 
 	 const styleButtonAll = filter === 'All' ? 'active-filter' : ''

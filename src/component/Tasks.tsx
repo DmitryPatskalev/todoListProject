@@ -8,21 +8,22 @@ export type TasksType = {
 }
 
 export type TasksPropsType = {
+	 todoListId: string
 	 tasks: TasksType[]
-	 removeTask: (id: string) => void
-	 changeTaskStatus: (taskId: string, isDone: boolean) => void
+	 removeTask: (todoListId: string, id: string) => void
+	 changeTaskStatus: (todoListId: string, taskId: string, isDone: boolean) => void
 }
 
-export const Tasks: React.FC<TasksPropsType> = ({tasks, removeTask, changeTaskStatus}) => {
+export const Tasks: React.FC<TasksPropsType> = ({tasks, removeTask, changeTaskStatus, todoListId}) => {
 
 	 return (
 		 <ul>
 				{tasks.map(t => {
 					 const changeStatus = (event: ChangeEvent<HTMLInputElement>) => {
-							changeTaskStatus(t.id, event.currentTarget.checked)
+							changeTaskStatus(todoListId, t.id, event.currentTarget.checked)
 					 }
 					 const deleteTasks = () => {
-							removeTask(t.id)
+							removeTask(todoListId, t.id)
 					 }
 
 					 return <li key={t.id} className={t.isDone ? 'is-done' : ''}>

@@ -5,43 +5,50 @@ import {Tasks, TasksType} from "./Tasks";
 
 
 export type TodoListType = {
+	 todoListId: string
 	 todoListTitle: string
-	 taskTitle: string
 	 tasks: TasksType[]
-	 removeTask: (id: string) => void
-	 changeFilterTask: (value: FilterValueType) => void
-	 addTask: (title: string) => void
-	 onChangeHundler: (event: ChangeEvent<HTMLInputElement>) => void
-	 changeTaskStatus: (taskId: string, isDone: boolean) => void
+	 removeTask: (todoListId: string, id: string) => void
+	 changeFilterTask: (todoListId: string, value: FilterValueType) => void
+	 addTask: (todoListId: string, title: string) => void
+	 changeTaskStatus: (todoListId: string, taskId: string, isDone: boolean) => void
 	 filter: FilterValueType
+	 removeTodolist: (todoListId: string) => void
 }
 
 
 export const TodoList: React.FC<TodoListType> = ({
+																										todoListId,
 																										todoListTitle,
 																										tasks,
 																										removeTask,
 																										changeFilterTask,
 																										addTask,
-																										onChangeHundler,
-																										taskTitle,
 																										changeTaskStatus,
-																										filter
+																										filter,
+																										removeTodolist
 																								 }) => {
+
+	 const deleteTodoList = () => {
+			removeTodolist(todoListId)
+	 }
 
 	 return (
 		 <div>
-				<h3>{todoListTitle}</h3>
+				<h3>{todoListTitle}
+					 <button onClick={deleteTodoList}>x</button>
+				</h3>
+
 
 				<div>
 					 <Input
+						 todoListId={todoListId}
 						 addTask={addTask}
-						 onChangeHundler={onChangeHundler}
-						 taskTitle={taskTitle}
 					 />
 				</div>
 
 				<Tasks
+					todoListId={todoListId}
 					tasks={tasks}
 					removeTask={removeTask}
 					changeTaskStatus={changeTaskStatus}
@@ -49,6 +56,7 @@ export const TodoList: React.FC<TodoListType> = ({
 
 				<div>
 					 <ButtonFilterTasks
+						 todoListId={todoListId}
 						 changeFilterTask={changeFilterTask}
 						 filter={filter}
 					 />
