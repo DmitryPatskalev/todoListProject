@@ -1,12 +1,9 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 
-type InputType = {
-	 todoListId: string
-	 addTask: (todoListId: string, title: string) => void
+type AddItemFormType = {
+	 addItem: (title: string) => void
 }
-
-export const Input: React.FC<InputType> = ({addTask, todoListId}) => {
-
+export const AddItemForm: React.FC<AddItemFormType> = ({addItem}) => {
 	 const [error, setError] = useState<null | string>(null)
 	 const [newTaskTitle, setNewTaskTitle] = useState<string>('')
 
@@ -14,9 +11,9 @@ export const Input: React.FC<InputType> = ({addTask, todoListId}) => {
 			setNewTaskTitle(event.currentTarget.value)
 	 }
 
-	 const addNewTask = () => {
+	 const addNewItem = () => {
 			if (newTaskTitle.trim() !== '') {
-				 addTask(todoListId, newTaskTitle)
+				 addItem(newTaskTitle)
 				 setNewTaskTitle('')
 			} else {
 				 setError('Title is required!')
@@ -25,8 +22,9 @@ export const Input: React.FC<InputType> = ({addTask, todoListId}) => {
 
 	 const onKeyPressHundler = (event: KeyboardEvent<HTMLInputElement>) => {
 			setError(null)
-			return event.key === 'Enter' && addNewTask()
+			return event.key === 'Enter' && addNewItem()
 	 }
+
 
 	 return (
 		 <div>
@@ -37,10 +35,9 @@ export const Input: React.FC<InputType> = ({addTask, todoListId}) => {
 					className={error ? 'error' : ''}
 				/>
 				<button
-					onClick={addNewTask}>+
+					onClick={addNewItem}>+
 				</button>
 				{error && <div className='error-message'>{error}</div>}
 		 </div>
-	 );
-};
-
+	 )
+}

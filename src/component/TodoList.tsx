@@ -1,7 +1,7 @@
-import React, {ChangeEvent} from "react";
+import React from "react";
 import {ButtonFilterTasks, FilterValueType} from "./ButtonFilterTasks";
-import {Input} from "./Input";
 import {Tasks, TasksType} from "./Tasks";
+import {AddItemForm} from "./AddItemForm";
 
 
 export type TodoListType = {
@@ -10,7 +10,7 @@ export type TodoListType = {
 	 tasks: TasksType[]
 	 removeTask: (todoListId: string, id: string) => void
 	 changeFilterTask: (todoListId: string, value: FilterValueType) => void
-	 addTask: (todoListId: string, title: string) => void
+	 addItem: (todoListId:string, title: string) => void
 	 changeTaskStatus: (todoListId: string, taskId: string, isDone: boolean) => void
 	 filter: FilterValueType
 	 removeTodolist: (todoListId: string) => void
@@ -23,7 +23,7 @@ export const TodoList: React.FC<TodoListType> = ({
 																										tasks,
 																										removeTask,
 																										changeFilterTask,
-																										addTask,
+																										addItem,
 																										changeTaskStatus,
 																										filter,
 																										removeTodolist
@@ -33,18 +33,19 @@ export const TodoList: React.FC<TodoListType> = ({
 			removeTodolist(todoListId)
 	 }
 
+	 const addNewTask = (title:string)=>{
+			addItem(todoListId, title)
+	 }
+
+
 	 return (
 		 <div>
 				<h3>{todoListTitle}
 					 <button onClick={deleteTodoList}>x</button>
 				</h3>
 
-
 				<div>
-					 <Input
-						 todoListId={todoListId}
-						 addTask={addTask}
-					 />
+					 <AddItemForm addItem={addNewTask}/>
 				</div>
 
 				<Tasks
