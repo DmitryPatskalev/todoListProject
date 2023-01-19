@@ -2,6 +2,7 @@ import React from "react";
 import {ButtonFilterTasks, FilterValueType} from "./ButtonFilterTasks";
 import {Tasks, TasksType} from "./Tasks";
 import {AddItemForm} from "./AddItemForm";
+import {EditableSpan} from "./EditableSpan";
 
 
 export type TodoListType = {
@@ -10,10 +11,12 @@ export type TodoListType = {
 	 tasks: TasksType[]
 	 removeTask: (todoListId: string, id: string) => void
 	 changeFilterTask: (todoListId: string, value: FilterValueType) => void
-	 addItem: (todoListId:string, title: string) => void
+	 addItem: (todoListId: string, title: string) => void
 	 changeTaskStatus: (todoListId: string, taskId: string, isDone: boolean) => void
 	 filter: FilterValueType
 	 removeTodolist: (todoListId: string) => void
+	 changeTaskTitle: (todoListId: string, taskId: string, title: string) => void
+	 changeTodoListTitle: (todoListId: string, title: string) => void
 }
 
 
@@ -26,21 +29,27 @@ export const TodoList: React.FC<TodoListType> = ({
 																										addItem,
 																										changeTaskStatus,
 																										filter,
-																										removeTodolist
+																										removeTodolist,
+																										changeTaskTitle,
+																										changeTodoListTitle
 																								 }) => {
 
 	 const deleteTodoList = () => {
 			removeTodolist(todoListId)
 	 }
 
-	 const addNewTask = (title:string)=>{
+	 const addNewTask = (title: string) => {
 			addItem(todoListId, title)
+	 }
+	 const changeTodoTitle = (title: string) => {
+			changeTodoListTitle(todoListId, title)
 	 }
 
 
 	 return (
 		 <div>
-				<h3>{todoListTitle}
+				<h3>
+					 <EditableSpan title={todoListTitle} onChange={changeTodoTitle}/>
 					 <button onClick={deleteTodoList}>x</button>
 				</h3>
 
@@ -53,6 +62,7 @@ export const TodoList: React.FC<TodoListType> = ({
 					tasks={tasks}
 					removeTask={removeTask}
 					changeTaskStatus={changeTaskStatus}
+					changeTaskTitle={changeTaskTitle}
 				/>
 
 				<div>
