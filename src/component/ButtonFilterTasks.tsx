@@ -1,4 +1,5 @@
 import React from 'react';
+import {Button} from "@material-ui/core";
 
 
 export type FilterValueType = 'All' | 'Active' | 'Completed'
@@ -21,16 +22,25 @@ export const ButtonFilterTasks: React.FC<FilterChangeTasksType> = ({changeFilter
 			changeFilterTask(todoListId, 'Completed')
 	 }
 
-	 const styleButtonAll = filter === 'All' ? 'active-filter' : ''
-	 const styleButtonActive = filter === 'Active' ? 'active-filter' : ''
-	 const styleButtonCompleted = filter === 'Completed' ? 'active-filter' : ''
+	 // const styleButtonAll = filter === 'All' ? 'active-filter' : ''
+	 // const styleButtonActive = filter === 'Active' ? 'active-filter' : ''
+	 // const styleButtonCompleted = filter === 'Completed' ? 'active-filter' : ''
 
 
 	 return (
 		 <div>
-				<button onClick={onAllButton} className={styleButtonAll}>All</button>
-				<button onClick={onActiveButton} className={styleButtonActive}>Active</button>
-				<button onClick={onCompletedButton} className={styleButtonCompleted}>Completed</button>
+				<Button
+					onClick={onAllButton}
+					variant={filter === 'All' ? "contained" : undefined}
+					color={'primary'}>All</Button>
+				<Button
+					onClick={onActiveButton}
+					variant={filter === 'Active' ? "contained" : undefined}
+					color={'primary'}>Active</Button>
+				<Button
+					onClick={onCompletedButton}
+					variant={filter === 'Completed' ? "contained" : undefined}
+					color={'primary'}>Completed</Button>
 		 </div>
 	 );
 };

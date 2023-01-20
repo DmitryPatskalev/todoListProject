@@ -1,5 +1,7 @@
 import React, {ChangeEvent} from 'react';
 import {EditableSpan} from "./EditableSpan";
+import {Checkbox, IconButton} from "@material-ui/core";
+import {Delete} from "@material-ui/icons";
 
 
 export type TasksType = {
@@ -19,7 +21,7 @@ export type TasksPropsType = {
 export const Tasks: React.FC<TasksPropsType> = ({tasks, removeTask, changeTaskStatus, todoListId, changeTaskTitle}) => {
 
 	 return (
-		 <ul>
+		 <>
 				{tasks.map(t => {
 					 const changeStatus = (event: ChangeEvent<HTMLInputElement>) => {
 							changeTaskStatus(todoListId, t.id, event.currentTarget.checked)
@@ -31,17 +33,19 @@ export const Tasks: React.FC<TasksPropsType> = ({tasks, removeTask, changeTaskSt
 							changeTaskTitle(todoListId, t.id, title)
 					 }
 
-					 return <li key={t.id} className={t.isDone ? 'is-done' : ''}>
-							<input
-								type="checkbox"
+					 return <div key={t.id} className={t.isDone ? 'is-done' : ''}>
+							<Checkbox
+								color={'primary'}
 								checked={t.isDone}
 								onChange={changeStatus}
 							/>
 							<EditableSpan onChange={changeTitle} title={t.title}/>
-							<button onClick={deleteTasks}>x</button>
-					 </li>
+							<IconButton onClick={deleteTasks}>
+								 <Delete/>
+							</IconButton>
+					 </div>
 				})}
-		 </ul>
+		 </>
 	 );
 };
 

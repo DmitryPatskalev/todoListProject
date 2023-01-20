@@ -3,6 +3,8 @@ import {ButtonFilterTasks, FilterValueType} from "./ButtonFilterTasks";
 import {Tasks, TasksType} from "./Tasks";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
+import {IconButton} from "@material-ui/core";
+import {Delete} from "@material-ui/icons";
 
 
 export type TodoListType = {
@@ -50,7 +52,9 @@ export const TodoList: React.FC<TodoListType> = ({
 		 <div>
 				<h3>
 					 <EditableSpan title={todoListTitle} onChange={changeTodoTitle}/>
-					 <button onClick={deleteTodoList}>x</button>
+					 <IconButton onClick={deleteTodoList}>
+							<Delete/>
+					 </IconButton>
 				</h3>
 
 				<div>
