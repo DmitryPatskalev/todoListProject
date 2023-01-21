@@ -2,34 +2,24 @@ import React, {useState} from 'react';
 import './App.css';
 import {TodoList} from "./component/TodoList";
 import {v1} from "uuid";
-import {TasksType} from "./component/Tasks";
 import {FilterValueType} from "./component/ButtonFilterTasks";
 import {AddItemForm} from "./component/AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
+import {TodoListStateType, TodoListType} from "./state/todolists-reducer";
 
-
-export type TodoListType = {
-	 [key: string]: Array<TasksType>
-}
-
-export type TaskStateType = {
-	 id: string
-	 title: string
-	 filter: FilterValueType
-}
 
 function App() {
 
 	 const todoListId1 = v1()
 	 const todoListId2 = v1()
 
-	 const todoListArray: Array<TaskStateType> = [
+	 const todoListArray: Array<TodoListType> = [
 			{id: todoListId1, title: 'What I learn', filter: 'All'},
 			{id: todoListId2, title: 'What You learn', filter: 'All'},
 	 ]
 
-	 const tasksArray = {
+	 const tasksArray: TodoListStateType = {
 			[todoListId1]: [
 				 {id: v1(), title: 'HTML&CSS', isDone: true},
 				 {id: v1(), title: 'JS', isDone: true},
@@ -45,7 +35,7 @@ function App() {
 	 }
 
 	 const [todoLists, setTodoLists] = useState(todoListArray)
-	 const [tasks, setTasks] = useState<TodoListType>(tasksArray)
+	 const [tasks, setTasks] = useState(tasksArray)
 
 
 	 const removeTask = (todoListId: string, taskId: string) => {
@@ -78,7 +68,7 @@ function App() {
 	 }
 
 	 const addTodoList = (title: string) => {
-			const newTodoList: TaskStateType = {
+			const newTodoList: TodoListType = {
 				 id: v1(),
 				 title,
 				 filter: 'All'
