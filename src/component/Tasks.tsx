@@ -2,13 +2,8 @@ import React, {ChangeEvent} from 'react';
 import {EditableSpan} from "./EditableSpan";
 import {Checkbox, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
+import {TasksType} from "../state/tasks-reducer";
 
-
-export type TasksType = {
-	 id: string
-	 title: string
-	 isDone: boolean
-}
 
 export type TasksPropsType = {
 	 todoListId: string
@@ -18,8 +13,13 @@ export type TasksPropsType = {
 	 changeTaskTitle: (todoListId: string, taskId: string, title: string) => void
 }
 
-export const Tasks: React.FC<TasksPropsType> = ({tasks, removeTask, changeTaskStatus, todoListId, changeTaskTitle}) => {
-
+export const Tasks: React.FC<TasksPropsType> = ({
+																									 tasks,
+																									 removeTask,
+																									 changeTaskStatus,
+																									 todoListId,
+																									 changeTaskTitle
+																								}) => {
 	 return (
 		 <>
 				{tasks.map(t => {

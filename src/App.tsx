@@ -6,7 +6,9 @@ import {FilterValueType} from "./component/ButtonFilterTasks";
 import {AddItemForm} from "./component/AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
-import {TodoListStateType, TodoListType} from "./state/todolists-reducer";
+import {TodoListType} from "./state/todolists-reducer";
+import {TodoListStateType} from "./state/tasks-reducer";
+
 
 
 function App() {
@@ -37,20 +39,37 @@ function App() {
 	 const [todoLists, setTodoLists] = useState(todoListArray)
 	 const [tasks, setTasks] = useState(tasksArray)
 
-
-	 const removeTask = (todoListId: string, taskId: string) => {
-			setTasks({...tasks, [todoListId]: tasks[todoListId].filter(t => t.id !== taskId)})
-	 }
-
+//todolists
 	 const removeTodolist = (todoListId: string) => {
 			setTodoLists(todoLists.filter(tl => tl.id !== todoListId))
 			delete tasks[todoListId]
 			setTasks({...tasks})
 	 }
 
+	 const addTodoList = (title: string) => {
+			const newTodoList: TodoListType = {
+				 id: v1(),
+				 title,
+				 filter: 'All'
+			}
+			setTodoLists([newTodoList, ...todoLists])
+			setTasks({...tasks, [newTodoList.id]: []})
+	 }
+
+	 const changeTodoListTitle = (todoListId: string, title: string) => {
+			setTodoLists(todoLists.map(tl => tl.id === todoListId ? {...tl, title} : tl))
+	 }
+
 	 const changeFilterTask = (todoListId: string, value: FilterValueType) => {
 			setTodoLists(todoLists.map(tl => tl.id === todoListId ? {...tl, filter: value} : tl))
 	 }
+
+//tasks
+
+	 const removeTask = (todoListId: string, taskId: string) => {
+			setTasks({...tasks, [todoListId]: tasks[todoListId].filter(t => t.id !== taskId)})
+	 }
+
 
 	 const addTask = (todoListId: string, title: string) => {
 			let newTask = {
@@ -67,22 +86,9 @@ function App() {
 			setTasks({...tasks, [todoListId]: tasks[todoListId].map(t => t.id === taskId ? {...t, isDone} : t)})
 	 }
 
-	 const addTodoList = (title: string) => {
-			const newTodoList: TodoListType = {
-				 id: v1(),
-				 title,
-				 filter: 'All'
-			}
-			setTodoLists([newTodoList, ...todoLists])
-			setTasks({...tasks, [newTodoList.id]: []})
-	 }
 
 	 const changeTaskTitle = (todoListId: string, taskId: string, title: string) => {
 			setTasks({...tasks, [todoListId]: tasks[todoListId].map(t => t.id === taskId ? {...t, title} : t)})
-	 }
-
-	 const changeTodoListTitle = (todoListId: string, title: string) => {
-			setTodoLists(todoLists.map(tl => tl.id === todoListId ? {...tl, title} : tl))
 	 }
 
 

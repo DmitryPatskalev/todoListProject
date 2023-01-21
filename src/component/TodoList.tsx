@@ -1,13 +1,14 @@
 import React from "react";
 import {ButtonFilterTasks, FilterValueType} from "./ButtonFilterTasks";
-import {Tasks, TasksType} from "./Tasks";
+import {Tasks} from "./Tasks";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
+import {TasksType} from "../state/tasks-reducer";
 
 
-export type TodoListType = {
+export type TodoListPropsType = {
 	 todoListId: string
 	 todoListTitle: string
 	 tasks: TasksType[]
@@ -21,20 +22,19 @@ export type TodoListType = {
 	 changeTodoListTitle: (todoListId: string, title: string) => void
 }
 
-
-export const TodoList: React.FC<TodoListType> = ({
-																										todoListId,
-																										todoListTitle,
-																										tasks,
-																										removeTask,
-																										changeFilterTask,
-																										addItem,
-																										changeTaskStatus,
-																										filter,
-																										removeTodolist,
-																										changeTaskTitle,
-																										changeTodoListTitle
-																								 }) => {
+export const TodoList: React.FC<TodoListPropsType> = ({
+																												 todoListId,
+																												 todoListTitle,
+																												 tasks,
+																												 removeTask,
+																												 changeFilterTask,
+																												 addItem,
+																												 changeTaskStatus,
+																												 filter,
+																												 removeTodolist,
+																												 changeTaskTitle,
+																												 changeTodoListTitle
+																											}) => {
 
 	 const deleteTodoList = () => {
 			removeTodolist(todoListId)
@@ -46,7 +46,6 @@ export const TodoList: React.FC<TodoListType> = ({
 	 const changeTodoTitle = (title: string) => {
 			changeTodoListTitle(todoListId, title)
 	 }
-
 
 	 return (
 		 <div>
