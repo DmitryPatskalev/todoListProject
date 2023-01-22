@@ -11,6 +11,8 @@ export type TodoListStateType = {
 	 [key: string]: Array<TasksType>
 }
 
+
+
 export type TasksActionType =
 	| ReturnType<typeof removeTaskAC>
 	| ReturnType<typeof addTaskAC>
@@ -27,7 +29,7 @@ export const tasksReducer = (state: TodoListStateType, action: TasksActionType):
 				 return {...state, [action.todoListId]: state[action.todoListId].filter(t => t.id !== action.taskId)}
 
 			case "ADD_TASK":
-				 let newTask = {id: v1(), title: action.title, isDone: true}
+				 let newTask = {id: v1(), title: action.title, isDone: false}
 				 state[action.todoListId] = [newTask, ...state[action.todoListId]]
 				 return {...state}
 

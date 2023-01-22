@@ -49,7 +49,7 @@ test('task should be added in correct todolist', () => {
 
 	 expect(endState[todoListId2].length).toBe(4)
 	 expect(endState[todoListId2][0].title).toBe(newTaskTitle)
-	 expect(endState[todoListId2][0].isDone).toBeTruthy()
+	 expect(endState[todoListId2][0].isDone).toBeFalsy()
 })
 
 test('status in correct task should be changed', () => {
