@@ -5,47 +5,43 @@ import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
-import {TasksType} from "../state/tasks-reducer";
+import {addTaskAC} from "../state/tasks-reducer";
+import {useDispatch} from "react-redux";
+import {changeTodoListFilterAC, changeTodoListTitleAC, removeTodoListAC} from "../state/todolists-reducer";
 
 
 export type TodoListPropsType = {
 	 todoListId: string
 	 todoListTitle: string
-	 tasks: TasksType[]
-	 removeTask: (todoListId: string, id: string) => void
-	 changeFilterTask: (todoListId: string, value: FilterValueType) => void
-	 addItem: (todoListId: string, title: string) => void
-	 changeTaskStatus: (todoListId: string, taskId: string, isDone: boolean) => void
 	 filter: FilterValueType
-	 removeTodolist: (todoListId: string) => void
-	 changeTaskTitle: (todoListId: string, taskId: string, title: string) => void
-	 changeTodoListTitle: (todoListId: string, title: string) => void
 }
 
 export const TodoList: React.FC<TodoListPropsType> = ({
 																												 todoListId,
 																												 todoListTitle,
-																												 tasks,
-																												 removeTask,
-																												 changeFilterTask,
-																												 addItem,
-																												 changeTaskStatus,
 																												 filter,
-																												 removeTodolist,
-																												 changeTaskTitle,
-																												 changeTodoListTitle
 																											}) => {
 
+
+	 const dispatch = useDispatch()
+
 	 const deleteTodoList = () => {
-			removeTodolist(todoListId)
+			dispatch(removeTodoListAC(todoListId))
+
 	 }
 
 	 const addNewTask = (title: string) => {
-			addItem(todoListId, title)
+			dispatch(addTaskAC(todoListId, title))
 	 }
+
 	 const changeTodoTitle = (title: string) => {
-			changeTodoListTitle(todoListId, title)
+			dispatch(changeTodoListTitleAC(todoListId, title))
 	 }
+
+	 const changeFilterTask = (todoListId: string, value: FilterValueType) => {
+			dispatch(changeTodoListFilterAC(todoListId, value))
+	 }
+
 
 	 return (
 		 <div>
@@ -62,10 +58,7 @@ export const TodoList: React.FC<TodoListPropsType> = ({
 
 				<Tasks
 					todoListId={todoListId}
-					tasks={tasks}
-					removeTask={removeTask}
-					changeTaskStatus={changeTaskStatus}
-					changeTaskTitle={changeTaskTitle}
+					filter={filter}
 				/>
 
 				<div>

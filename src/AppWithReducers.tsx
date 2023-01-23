@@ -1,52 +1,30 @@
 import React, {useReducer} from 'react';
 import './App.css';
 import {TodoList} from "./component/TodoList";
-import {v1} from "uuid";
 import {FilterValueType} from "./component/ButtonFilterTasks";
 import {AddItemForm} from "./component/AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import {
-	 addTodoListAC, changeTodoListFilterAC,
+	 addTodoListAC,
+	 changeTodoListFilterAC,
 	 changeTodoListTitleAC,
 	 removeTodoListAC,
-	 todolistsReducer,
-	 TodoListType
+	 todoListArray,
+	 todolistsReducer
 } from "./state/todolists-reducer";
 import {
 	 addTaskAC,
 	 changeTaskStatusAC,
 	 changeTaskTitleAC,
 	 removeTaskAC,
+	 tasksArray,
 	 tasksReducer,
-	 TodoListStateType
 } from "./state/tasks-reducer";
 
 
 function AppWithReducers() {
 
-	 const todoListId1 = v1()
-	 const todoListId2 = v1()
-
-	 const todoListArray: Array<TodoListType> = [
-			{id: todoListId1, title: 'What I learn', filter: 'All'},
-			{id: todoListId2, title: 'What You learn', filter: 'All'},
-	 ]
-
-	 const tasksArray: TodoListStateType = {
-			[todoListId1]: [
-				 {id: v1(), title: 'HTML&CSS', isDone: true},
-				 {id: v1(), title: 'JS', isDone: true},
-				 {id: v1(), title: 'React', isDone: false},
-				 {id: v1(), title: 'RESTApi', isDone: false},
-				 {id: v1(), title: 'GraphQL', isDone: true},
-			],
-			[todoListId2]: [
-				 {id: v1(), title: 'Angular', isDone: true},
-				 {id: v1(), title: 'C++', isDone: true},
-				 {id: v1(), title: 'Python', isDone: false},
-			]
-	 }
 
 	 const [todoLists, dispatchToTodolist] = useReducer(todolistsReducer, todoListArray)
 	 const [tasks, dispatchToTasks] = useReducer(tasksReducer, tasksArray)
@@ -119,20 +97,20 @@ function AppWithReducers() {
 								 }
 								 return <Grid item>
 										<Paper elevation={3} style={{padding: '10px'}}>
-											 <TodoList
-												 key={tl.id}
-												 todoListId={tl.id}
-												 todoListTitle={tl.title}
-												 tasks={taskForTodolist}
-												 removeTask={removeTask}
-												 changeFilterTask={changeFilterTask}
-												 addItem={addTask}
-												 changeTaskStatus={changeTaskStatus}
-												 filter={tl.filter}
-												 removeTodolist={removeTodolist}
-												 changeTaskTitle={changeTaskTitle}
-												 changeTodoListTitle={changeTodoListTitle}
-											 />
+											 {/*<TodoList*/}
+												{/* key={tl.id}*/}
+												{/* todoListId={tl.id}*/}
+												{/* todoListTitle={tl.title}*/}
+												{/* tasks={taskForTodolist}*/}
+												{/* removeTask={removeTask}*/}
+												{/* changeFilterTask={changeFilterTask}*/}
+												{/* addItem={addTask}*/}
+												{/* changeTaskStatus={changeTaskStatus}*/}
+												{/* filter={tl.filter}*/}
+												{/* removeTodolist={removeTodolist}*/}
+												{/* changeTaskTitle={changeTaskTitle}*/}
+												{/* changeTodoListTitle={changeTodoListTitle}*/}
+											 {/*/>*/}
 										</Paper>
 								 </Grid>
 							})}

@@ -7,22 +7,16 @@ export type TasksType = {
 	 isDone: boolean
 }
 
-export type TodoListStateType = {
+export type TasksStateType = {
 	 [key: string]: Array<TasksType>
 }
 
+export const tasksArray: TasksStateType = {}
 
 
-export type TasksActionType =
-	| ReturnType<typeof removeTaskAC>
-	| ReturnType<typeof addTaskAC>
-	| ReturnType<typeof changeTaskStatusAC>
-	| ReturnType<typeof changeTaskTitleAC>
-	| ReturnType<typeof addTodoListAC>
-	| ReturnType<typeof removeTodoListAC>
+const initialTasksState = tasksArray
 
-
-export const tasksReducer = (state: TodoListStateType, action: TasksActionType): TodoListStateType => {
+export const tasksReducer = (state: TasksStateType = initialTasksState, action: TasksActionType): TasksStateType => {
 	 switch (action.type) {
 
 			case "REMOVE_TASK":
@@ -80,3 +74,11 @@ export const changeTaskTitleAC = (todoListId: string, taskId: string, title: str
 	 taskId,
 	 title
 } as const)
+
+export type TasksActionType =
+	| ReturnType<typeof removeTaskAC>
+	| ReturnType<typeof addTaskAC>
+	| ReturnType<typeof changeTaskStatusAC>
+	| ReturnType<typeof changeTaskTitleAC>
+	| ReturnType<typeof addTodoListAC>
+	| ReturnType<typeof removeTodoListAC>

@@ -1,5 +1,5 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {Button, IconButton, TextField} from "@material-ui/core";
+import {IconButton, TextField} from "@material-ui/core";
 import {AddBox} from "@material-ui/icons";
 
 type AddItemFormType = {
@@ -26,7 +26,6 @@ export const AddItemForm: React.FC<AddItemFormType> = ({addItem}) => {
 			setError(null)
 			return event.key === 'Enter' && addNewItem()
 	 }
-
 
 	 return (
 		 <div>

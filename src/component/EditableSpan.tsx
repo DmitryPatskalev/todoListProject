@@ -23,6 +23,7 @@ export const EditableSpan: React.FC<EditableSpanType> = ({title, onChange}) => {
 	 const onChangeHundler = (e: ChangeEvent<HTMLInputElement>) => {
 			setNewValue(e.currentTarget.value)
 	 }
+	 
 	 return (
 		 <>
 				{edit ?
@@ -36,8 +37,6 @@ export const EditableSpan: React.FC<EditableSpanType> = ({title, onChange}) => {
 						onDoubleClick={activateEditMode}
 					>{title}</span>
 				}
-
-
 		 </>
 	 );
 };

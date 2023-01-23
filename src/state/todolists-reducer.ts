@@ -7,14 +7,15 @@ export type TodoListType = {
 	 filter: FilterValueType
 }
 
-export type TodoListActionsType =
-	| ReturnType<typeof addTodoListAC>
-	| ReturnType<typeof removeTodoListAC>
-	| ReturnType<typeof changeTodoListFilterAC>
-	| ReturnType<typeof changeTodoListTitleAC>
+export const todoListId1 = v1()
+export const todoListId2 = v1()
 
+export const todoListArray: Array<TodoListType> = []
 
-export const todolistsReducer = (state: Array<TodoListType>, action: TodoListActionsType): Array<TodoListType> => {
+const initialTodolistState = todoListArray
+
+export const todolistsReducer = (state: Array<TodoListType> = initialTodolistState,
+																 action: TodoListActionsType): Array<TodoListType> => {
 	 switch (action.type) {
 
 			case "ADD_TODOLIST":
@@ -49,3 +50,9 @@ export const changeTodoListTitleAC = (todoListId: string, title: string) => ({
 	 todoListId,
 	 title
 } as const)
+
+export type TodoListActionsType =
+	| ReturnType<typeof addTodoListAC>
+	| ReturnType<typeof removeTodoListAC>
+	| ReturnType<typeof changeTodoListFilterAC>
+	| ReturnType<typeof changeTodoListTitleAC>

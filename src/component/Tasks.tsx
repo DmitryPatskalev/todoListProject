@@ -2,35 +2,44 @@ import React, {ChangeEvent} from 'react';
 import {EditableSpan} from "./EditableSpan";
 import {Checkbox, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
-import {TasksType} from "../state/tasks-reducer";
+import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, TasksType} from "../state/tasks-reducer";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootStateType} from "../state/store";
+import {FilterValueType} from "./ButtonFilterTasks";
 
 
 export type TasksPropsType = {
 	 todoListId: string
-	 tasks: TasksType[]
-	 removeTask: (todoListId: string, id: string) => void
-	 changeTaskStatus: (todoListId: string, taskId: string, isDone: boolean) => void
-	 changeTaskTitle: (todoListId: string, taskId: string, title: string) => void
+	 filter: FilterValueType
 }
 
-export const Tasks: React.FC<TasksPropsType> = ({
-																									 tasks,
-																									 removeTask,
-																									 changeTaskStatus,
-																									 todoListId,
-																									 changeTaskTitle
-																								}) => {
+export const Tasks: React.FC<TasksPropsType> = ({todoListId, filter}) => {
+
+	 const tasks = useSelector<AppRootStateType, Array<TasksType>>(state => state.tasks[todoListId])
+	 const dispatch = useDispatch()
+
+	 let taskForTodolist = tasks
+	 if (filter === 'Active') {
+			taskForTodolist = tasks.filter(t => !t.isDone)
+	 }
+	 if (filter === 'Completed') {
+			taskForTodolist = tasks.filter(t => t.isDone)
+	 }
+
 	 return (
 		 <>
-				{tasks.map(t => {
+				{taskForTodolist.map(t => {
+
 					 const changeStatus = (event: ChangeEvent<HTMLInputElement>) => {
-							changeTaskStatus(todoListId, t.id, event.currentTarget.checked)
+							dispatch(changeTaskStatusAC(todoListId, t.id, event.currentTarget.checked))
 					 }
+
 					 const deleteTasks = () => {
-							removeTask(todoListId, t.id)
+							dispatch(removeTaskAC(todoListId, t.id))
 					 }
+
 					 const changeTitle = (title: string) => {
-							changeTaskTitle(todoListId, t.id, title)
+							dispatch(changeTaskTitleAC(todoListId, t.id, title))
 					 }
 
 					 return <div key={t.id} className={t.isDone ? 'is-done' : ''}>

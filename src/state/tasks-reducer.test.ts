@@ -4,7 +4,7 @@ import {
 	 changeTaskTitleAC,
 	 removeTaskAC,
 	 tasksReducer,
-	 TodoListStateType
+	 TasksStateType
 } from "./tasks-reducer";
 
 import {v1} from "uuid";
@@ -12,7 +12,7 @@ import {addTodoListAC, removeTodoListAC} from "./todolists-reducer";
 
 const todoListId1 = v1()
 const todoListId2 = v1()
-let startState: TodoListStateType
+let startState: TasksStateType
 
 beforeEach(() => {
 	 startState = {

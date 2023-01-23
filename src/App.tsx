@@ -7,8 +7,7 @@ import {AddItemForm} from "./component/AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import {TodoListType} from "./state/todolists-reducer";
-import {TodoListStateType} from "./state/tasks-reducer";
-
+import {TasksStateType} from "./state/tasks-reducer";
 
 
 function App() {
@@ -21,7 +20,7 @@ function App() {
 			{id: todoListId2, title: 'What You learn', filter: 'All'},
 	 ]
 
-	 const tasksArray: TodoListStateType = {
+	 const tasksArray: TasksStateType = {
 			[todoListId1]: [
 				 {id: v1(), title: 'HTML&CSS', isDone: true},
 				 {id: v1(), title: 'JS', isDone: true},
@@ -120,20 +119,20 @@ function App() {
 								 }
 								 return <Grid item>
 										<Paper elevation={3} style={{padding: '10px'}}>
-											 <TodoList
-												 key={tl.id}
-												 todoListId={tl.id}
-												 todoListTitle={tl.title}
-												 tasks={taskForTodolist}
-												 removeTask={removeTask}
-												 changeFilterTask={changeFilterTask}
-												 addItem={addTask}
-												 changeTaskStatus={changeTaskStatus}
-												 filter={tl.filter}
-												 removeTodolist={removeTodolist}
-												 changeTaskTitle={changeTaskTitle}
-												 changeTodoListTitle={changeTodoListTitle}
-											 />
+											 {/*<TodoList*/}
+												{/* key={tl.id}*/}
+												{/* todoListId={tl.id}*/}
+												{/* todoListTitle={tl.title}*/}
+												{/* tasks={taskForTodolist}*/}
+												{/* removeTask={removeTask}*/}
+												{/* changeFilterTask={changeFilterTask}*/}
+												{/* addItem={addTask}*/}
+												{/* changeTaskStatus={changeTaskStatus}*/}
+												{/* filter={tl.filter}*/}
+												{/* removeTodolist={removeTodolist}*/}
+												{/* changeTaskTitle={changeTaskTitle}*/}
+												{/* changeTodoListTitle={changeTodoListTitle}*/}
+											 {/*/>*/}
 										</Paper>
 								 </Grid>
 							})}
