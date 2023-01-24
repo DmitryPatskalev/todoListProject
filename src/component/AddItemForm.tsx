@@ -5,7 +5,11 @@ import {AddBox} from "@material-ui/icons";
 type AddItemFormType = {
 	 addItem: (title: string) => void
 }
-export const AddItemForm: React.FC<AddItemFormType> = ({addItem}) => {
+
+export const AddItemForm: React.FC<AddItemFormType> = React.memo(({addItem}) => {
+
+	 // console.log('AddItemForm is called')
+
 	 const [error, setError] = useState<null | string>(null)
 	 const [newTaskTitle, setNewTaskTitle] = useState<string>('')
 
@@ -23,7 +27,9 @@ export const AddItemForm: React.FC<AddItemFormType> = ({addItem}) => {
 	 }
 
 	 const onKeyPressHundler = (event: KeyboardEvent<HTMLInputElement>) => {
-			setError(null)
+			if (error !== null) {
+				 setError(null)
+			}
 			return event.key === 'Enter' && addNewItem()
 	 }
 
@@ -43,4 +49,4 @@ export const AddItemForm: React.FC<AddItemFormType> = ({addItem}) => {
 				</IconButton>
 		 </div>
 	 )
-}
+})

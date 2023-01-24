@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback} from "react";
 import {ButtonFilterTasks, FilterValueType} from "./ButtonFilterTasks";
 import {Tasks} from "./Tasks";
 import {AddItemForm} from "./AddItemForm";
@@ -16,37 +16,38 @@ export type TodoListPropsType = {
 	 filter: FilterValueType
 }
 
-export const TodoList: React.FC<TodoListPropsType> = ({
-																												 todoListId,
-																												 todoListTitle,
-																												 filter,
-																											}) => {
+export const TodoList: React.FC<TodoListPropsType> = React.memo(({
+																																		todoListId,
+																																		todoListTitle,
+																																		filter,
+																																 }) => {
 
+	 // console.log('TodoList is called')
 
 	 const dispatch = useDispatch()
 
-	 const deleteTodoList = () => {
+	 const deleteTodoList = useCallback(() => {
 			dispatch(removeTodoListAC(todoListId))
+	 }, [])
 
-	 }
-
-	 const addNewTask = (title: string) => {
+	 const addNewTask = useCallback((title: string) => {
 			dispatch(addTaskAC(todoListId, title))
-	 }
+	 }, [])
 
-	 const changeTodoTitle = (title: string) => {
+	 const changeTodoTitle = useCallback((title: string) => {
 			dispatch(changeTodoListTitleAC(todoListId, title))
-	 }
+	 }, [])
 
-	 const changeFilterTask = (todoListId: string, value: FilterValueType) => {
+	 const changeFilterTask = useCallback((todoListId: string, value: FilterValueType) => {
 			dispatch(changeTodoListFilterAC(todoListId, value))
-	 }
+	 }, [])
 
 
 	 return (
 		 <div>
 				<h3>
 					 <EditableSpan title={todoListTitle} onChange={changeTodoTitle}/>
+
 					 <IconButton onClick={deleteTodoList}>
 							<Delete/>
 					 </IconButton>
@@ -70,4 +71,4 @@ export const TodoList: React.FC<TodoListPropsType> = ({
 				</div>
 		 </div>
 	 )
-}
+})

@@ -40,11 +40,14 @@ export const addTodoListAC = (title: string) => ({
 	 type: 'ADD_TODOLIST', title,
 	 todoListId: v1()
 } as const)
+
 export const removeTodoListAC = (todoListId: string) => ({type: 'REMOVE_TODOLIST', todoListId} as const)
+
 export const changeTodoListFilterAC = (todoListId: string, filter: FilterValueType) => ({
 	 type: 'CHANGE_TODOLIST_FILTER',
 	 todoListId, filter
 } as const)
+
 export const changeTodoListTitleAC = (todoListId: string, title: string) => ({
 	 type: 'CHANGE_TODOLIST_TITLE',
 	 todoListId,

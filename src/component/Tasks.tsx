@@ -13,7 +13,8 @@ export type TasksPropsType = {
 	 filter: FilterValueType
 }
 
-export const Tasks: React.FC<TasksPropsType> = ({todoListId, filter}) => {
+export const Tasks: React.FC<TasksPropsType> = React.memo (({todoListId, filter}) => {
+	 // console.log('Tasks is called')
 
 	 const tasks = useSelector<AppRootStateType, Array<TasksType>>(state => state.tasks[todoListId])
 	 const dispatch = useDispatch()
@@ -56,5 +57,5 @@ export const Tasks: React.FC<TasksPropsType> = ({todoListId, filter}) => {
 				})}
 		 </>
 	 );
-};
+});
 

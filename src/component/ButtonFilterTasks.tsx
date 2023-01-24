@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {Button} from "@material-ui/core";
 
 
@@ -10,17 +10,24 @@ export type FilterChangeTasksType = {
 	 filter: FilterValueType
 }
 
-export const ButtonFilterTasks: React.FC<FilterChangeTasksType> = ({changeFilterTask, filter, todoListId}) => {
+export const ButtonFilterTasks: React.FC<FilterChangeTasksType> = React.memo(({
+																																								 changeFilterTask,
+																																								 filter,
+																																								 todoListId
+																																							}) => {
+	 // console.log('ButtonFilterTasks is called')
 
-	 const onAllButton = () => {
+	 const onAllButton = useCallback(() => {
 			changeFilterTask(todoListId, 'All')
-	 }
-	 const onActiveButton = () => {
+	 }, [changeFilterTask, todoListId])
+
+	 const onActiveButton = useCallback(() => {
 			changeFilterTask(todoListId, 'Active')
-	 }
-	 const onCompletedButton = () => {
+	 }, [changeFilterTask, todoListId])
+
+	 const onCompletedButton = useCallback(() => {
 			changeFilterTask(todoListId, 'Completed')
-	 }
+	 }, [changeFilterTask, todoListId])
 
 	 // const styleButtonAll = filter === 'All' ? 'active-filter' : ''
 	 // const styleButtonActive = filter === 'Active' ? 'active-filter' : ''
@@ -43,5 +50,5 @@ export const ButtonFilterTasks: React.FC<FilterChangeTasksType> = ({changeFilter
 					color={'primary'}>Completed</Button>
 		 </div>
 	 );
-};
+});
 
