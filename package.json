@@ -15,6 +15,7 @@
     "@types/react-dom": "^18.0.7",
     "@types/react-redux": "^7.1.25",
     "@types/uuid": "^9.0.0",
+    "axios": "^1.2.4",
     "gh-pages": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -78,4 +79,3 @@
     "webpack": "^5.75.0"
   }
 }
-
