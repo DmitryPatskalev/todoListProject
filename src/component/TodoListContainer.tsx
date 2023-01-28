@@ -4,11 +4,11 @@ import {AddItemForm} from "./AddItemForm";
 import {TodoList} from "./TodoList";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../state/store";
-import {addTodoListAC, TodoListType} from "../state/todolists-reducer";
+import {addTodoListAC, TodoListDomainType} from "../state/todolists-reducer";
 
 export const TodoListContainer = React.memo(() => {
 
-	 const todoLists = useSelector<AppRootStateType, Array<TodoListType>>(state => state.todoLists)
+	 const todoLists = useSelector<AppRootStateType, Array<TodoListDomainType>>(state => state.todoLists)
 
 	 const dispatch = useDispatch()
 

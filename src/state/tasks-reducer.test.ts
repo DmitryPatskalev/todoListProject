@@ -9,6 +9,7 @@ import {
 
 import {v1} from "uuid";
 import {addTodoListAC, removeTodoListAC} from "./todolists-reducer";
+import {TaskPriorities, TaskStatuses} from "../api/todolist-api";
 
 const todoListId1 = v1()
 const todoListId2 = v1()
@@ -17,16 +18,104 @@ let startState: TasksStateType
 beforeEach(() => {
 	 startState = {
 			[todoListId1]: [
-				 {id: '1', title: 'HTML&CSS', isDone: true},
-				 {id: '2', title: 'JS', isDone: true},
-				 {id: '3', title: 'React', isDone: false},
-				 {id: '4', title: 'RESTApi', isDone: false},
-				 {id: '5', title: 'GraphQL', isDone: true},
+				 {
+						id: '1',
+						title: 'HTML&CSS',
+						status: TaskStatuses.New,
+						todoListId: todoListId1,
+						addedDate: '',
+						deadline: '',
+						description: '',
+						order: 0,
+						startDate: '',
+						priority: TaskPriorities.Low
+				 },
+				 {
+						id: '2',
+						title: 'JS',
+						status: TaskStatuses.New,
+						todoListId: todoListId1,
+						addedDate: '',
+						deadline: '',
+						description: '',
+						order: 0,
+						startDate: '',
+						priority: TaskPriorities.Low
+				 },
+				 {
+						id: '3',
+						title: 'React',
+						status: TaskStatuses.Completed,
+						todoListId: todoListId1,
+						addedDate: '',
+						deadline: '',
+						description: '',
+						order: 0,
+						startDate: '',
+						priority: TaskPriorities.Low
+				 },
+				 {
+						id: '4',
+						title: 'RESTApi',
+						status: TaskStatuses.Completed,
+						todoListId: todoListId1,
+						addedDate: '',
+						deadline: '',
+						description: '',
+						order: 0,
+						startDate: '',
+						priority: TaskPriorities.Low
+				 },
+				 {
+						id: '5',
+						title: 'GraphQL',
+						status: TaskStatuses.New,
+						todoListId: todoListId1,
+						addedDate: '',
+						deadline: '',
+						description: '',
+						order: 0,
+						startDate: '',
+						priority: TaskPriorities.Low
+				 },
 			],
 			[todoListId2]: [
-				 {id: '1', title: 'Angular', isDone: true},
-				 {id: '2', title: 'C++', isDone: true},
-				 {id: '3', title: 'Python', isDone: false},
+				 {
+						id: '1',
+						title: 'Angular',
+						status: TaskStatuses.New,
+						todoListId: todoListId2,
+						addedDate: '',
+						deadline: '',
+						description: '',
+						order: 0,
+						startDate: '',
+						priority: TaskPriorities.Low
+				 },
+				 {
+						id: '2',
+						title: 'C++',
+						status: TaskStatuses.New,
+						todoListId: todoListId2,
+						addedDate: '',
+						deadline: '',
+						description: '',
+						order: 0,
+						startDate: '',
+						priority: TaskPriorities.Low
+				 },
+				 {
+						id: '3',
+						title: 'Python',
+						status: TaskStatuses.Completed,
+						todoListId: todoListId2,
+						addedDate: '',
+						deadline: '',
+						description: '',
+						order: 0,
+						startDate: '',
+						priority: TaskPriorities.Low
+				 },
 			]
 	 }
 })
@@ -49,16 +138,16 @@ test('task should be added in correct todolist', () => {
 
 	 expect(endState[todoListId2].length).toBe(4)
 	 expect(endState[todoListId2][0].title).toBe(newTaskTitle)
-	 expect(endState[todoListId2][0].isDone).toBeFalsy()
+	 expect(endState[todoListId2][0].status).toBe(TaskStatuses.New)
 })
 
 test('status in correct task should be changed', () => {
 
-	 const action = changeTaskStatusAC(todoListId1, '1', false)
+	 const action = changeTaskStatusAC(todoListId1, '1', TaskStatuses.Completed)
 	 const endState = tasksReducer(startState, action)
 
 	 expect(endState[todoListId1][0].id).toBe('1')
-	 expect(endState[todoListId1][0].isDone).toBeFalsy()
+	 expect(endState[todoListId1][0].status).toBe(TaskStatuses.Completed)
 })
 
 test('title in correct task should be changed', () => {
@@ -68,7 +157,7 @@ test('title in correct task should be changed', () => {
 	 const endState = tasksReducer(startState, action)
 
 	 expect(endState[todoListId2][2].title).toBe(newTaskTitle)
-	 expect(endState[todoListId2][2].isDone).toBeFalsy()
+	 expect(endState[todoListId2][2].status).toBe(TaskStatuses.Completed)
 })
 
 test('new array should be added when new todolist is added', () => {

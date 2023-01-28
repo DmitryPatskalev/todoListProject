@@ -9,7 +9,7 @@ export const instance = axios.create({
 	 }
 })
 
-type TodoListType = {
+export type TodoListType = {
 	 id: string
 	 title: string
 	 addedDate: string
@@ -22,12 +22,26 @@ export type ResponceTodolistType<D = {}> = {
 	 data: D
 }
 
-type TasksEntityType = {
+export enum TaskStatuses {
+	 New = 0,
+	 InProgress = 1,
+	 Completed = 2,
+	 Draft = 3
+}
+
+export enum TaskPriorities {
+	 Low = 0,
+	 Middle = 1,
+	 Hi = 2,
+	 Urgently = 3,
+	 Later = 4
+}
+
+export type TaskType = {
 	 description: string
 	 title: string
-	 completed: boolean
-	 status: number
-	 priority: number
+	 status: TaskStatuses
+	 priority: TaskPriorities
 	 startDate: string
 	 deadline: string
 	 id: string
@@ -37,7 +51,7 @@ type TasksEntityType = {
 }
 
 export type ResponceTasksType = {
-	 items: TasksEntityType[]
+	 items: TaskType[]
 	 totalCount: number
 	 error: string | null
 }
@@ -45,7 +59,6 @@ export type ResponceTasksType = {
 export type UpdateTaskModelType = {
 	 title: string
 	 description: string
-	 completed: boolean
 	 status: number
 	 priority: number
 	 startDate: string
@@ -82,7 +95,7 @@ export const tasksAPI = {
 	 deleteTask(todolistId: string, taskId: string) {
 			return instance.delete<ResponceTasksType>(`${TODO_LISTS}/${todolistId}${TASKS}/${taskId}`)
 	 },
-	 updateTask(todolistId: string, taskId: string, title: string) {
-			return instance.patch<ResponceTasksType>(`${TODO_LISTS}/${todolistId}${TASKS}/${taskId}`, {title})
+	 updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
+			return instance.put<ResponceTasksType>(`${TODO_LISTS}/${todolistId}${TASKS}/${taskId}`, model)
 	 }
 }

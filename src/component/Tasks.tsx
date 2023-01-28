@@ -2,29 +2,30 @@ import React, {ChangeEvent} from 'react';
 import {EditableSpan} from "./EditableSpan";
 import {Checkbox, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
-import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC, TasksType} from "../state/tasks-reducer";
+import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "../state/store";
-import {FilterValueType} from "./ButtonFilterTasks";
+import {FilterValuesType} from "../state/todolists-reducer";
+import {TaskStatuses, TaskType} from "../api/todolist-api";
 
 
 export type TasksPropsType = {
 	 todoListId: string
-	 filter: FilterValueType
+	 filter: FilterValuesType
 }
 
-export const Tasks: React.FC<TasksPropsType> = React.memo (({todoListId, filter}) => {
+export const Tasks: React.FC<TasksPropsType> = React.memo(({todoListId, filter}) => {
 	 // console.log('Tasks is called')
 
-	 const tasks = useSelector<AppRootStateType, Array<TasksType>>(state => state.tasks[todoListId])
+	 const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[todoListId])
 	 const dispatch = useDispatch()
 
 	 let taskForTodolist = tasks
 	 if (filter === 'Active') {
-			taskForTodolist = tasks.filter(t => !t.isDone)
+			taskForTodolist = tasks.filter(t => t.status === TaskStatuses.New)
 	 }
 	 if (filter === 'Completed') {
-			taskForTodolist = tasks.filter(t => t.isDone)
+			taskForTodolist = tasks.filter(t => t.status === TaskStatuses.Completed)
 	 }
 
 	 return (
@@ -32,7 +33,8 @@ export const Tasks: React.FC<TasksPropsType> = React.memo (({todoListId, filter}
 				{taskForTodolist.map(t => {
 
 					 const changeStatus = (event: ChangeEvent<HTMLInputElement>) => {
-							dispatch(changeTaskStatusAC(todoListId, t.id, event.currentTarget.checked))
+							dispatch(changeTaskStatusAC(todoListId, t.id,
+								event.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New))
 					 }
 
 					 const deleteTasks = () => {
@@ -43,10 +45,10 @@ export const Tasks: React.FC<TasksPropsType> = React.memo (({todoListId, filter}
 							dispatch(changeTaskTitleAC(todoListId, t.id, title))
 					 }
 
-					 return <div key={t.id} className={t.isDone ? 'is-done' : ''}>
+					 return <div key={t.id} className={t.status === TaskStatuses.Completed ? 'is-done' : ''}>
 							<Checkbox
 								color={'primary'}
-								checked={t.isDone}
+								checked={t.status === TaskStatuses.Completed}
 								onChange={changeStatus}
 							/>
 							<EditableSpan onChange={changeTitle} title={t.title}/>

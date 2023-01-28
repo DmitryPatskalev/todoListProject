@@ -1,13 +1,14 @@
 import React, {useCallback} from 'react';
 import {Button} from "@material-ui/core";
+import {FilterValuesType} from "../state/todolists-reducer";
 
 
-export type FilterValueType = 'All' | 'Active' | 'Completed'
+
 
 export type FilterChangeTasksType = {
 	 todoListId: string
-	 changeFilterTask: (todoListId: string, value: FilterValueType) => void
-	 filter: FilterValueType
+	 changeFilterTask: (todoListId: string, value: FilterValuesType) => void
+	 filter: FilterValuesType
 }
 
 export const ButtonFilterTasks: React.FC<FilterChangeTasksType> = React.memo(({

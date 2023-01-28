@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {tasksAPI, todoListAPI, UpdateTaskModelType} from "../api/todolist-api";
+import {tasksAPI, todoListAPI} from "../api/todolist-api";
 
 export default {
 	 title: 'API',
@@ -175,27 +175,38 @@ export const UpdateTask = () => {
 	 const [todolistId, setTodolistId] = useState<string>('')
 	 const [taskId, setTaskId] = useState<string>('')
 	 const [title, setTitle] = useState<string>('')
+	 const [description, setDescription] = useState<string>('')
+	 const [status, setStatus] = useState<number>(0)
+	 const [priority, setPriority] = useState<number>(0)
+	 const [startDate, setStartDate] = useState<string>('')
+	 const [deadline, setDeadline] = useState<string>('')
+
 
 	 const updateTask = () => {
-			tasksAPI.updateTask(todolistId, taskId, title)
+			tasksAPI.updateTask(todolistId, taskId, {
+				 title, description, status, priority, startDate, deadline
+			})
 				.then(res => setState(res.data))
 	 }
 
 	 return <div>
-			<input type="text"
-						 value={todolistId}
-						 placeholder='todolistId'
+			<input value={todolistId} placeholder='todolistId'
 						 onChange={(e) => setTodolistId(e.currentTarget.value)}
 			/>
-			<input type="text"
-						 value={taskId}
-						 placeholder='taskId'
+			<input value={taskId} placeholder='taskId'
 						 onChange={(e) => setTaskId(e.currentTarget.value)}
 			/>
-			<input type="text"
-						 value={title}
-						 placeholder='title'
+			<input value={title} placeholder='title'
 						 onChange={(e) => setTitle(e.currentTarget.value)}
+			/>
+			<input value={description} placeholder='description'
+						 onChange={(e) => setDescription(e.currentTarget.value)}
+			/>
+			<input value={status} placeholder='status'
+						 onChange={(e) => setStatus(+e.currentTarget.value)}
+			/>
+			<input value={priority} placeholder='priority'
+						 onChange={(e) => setPriority(+e.currentTarget.value)}
 			/>
 			<button onClick={updateTask}>update task</button>
 			<div>

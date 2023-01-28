@@ -1,5 +1,5 @@
 import React, {useCallback} from "react";
-import {ButtonFilterTasks, FilterValueType} from "./ButtonFilterTasks";
+import {ButtonFilterTasks} from "./ButtonFilterTasks";
 import {Tasks} from "./Tasks";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
@@ -7,13 +7,18 @@ import {IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {addTaskAC} from "../state/tasks-reducer";
 import {useDispatch} from "react-redux";
-import {changeTodoListFilterAC, changeTodoListTitleAC, removeTodoListAC} from "../state/todolists-reducer";
+import {
+	 changeTodoListFilterAC,
+	 changeTodoListTitleAC,
+	 FilterValuesType,
+	 removeTodoListAC
+} from "../state/todolists-reducer";
 
 
 export type TodoListPropsType = {
 	 todoListId: string
 	 todoListTitle: string
-	 filter: FilterValueType
+	 filter: FilterValuesType
 }
 
 export const TodoList: React.FC<TodoListPropsType> = React.memo(({
@@ -38,7 +43,7 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(({
 			dispatch(changeTodoListTitleAC(todoListId, title))
 	 }, [])
 
-	 const changeFilterTask = useCallback((todoListId: string, value: FilterValueType) => {
+	 const changeFilterTask = useCallback((todoListId: string, value: FilterValuesType) => {
 			dispatch(changeTodoListFilterAC(todoListId, value))
 	 }, [])
 
