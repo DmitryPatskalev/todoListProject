@@ -2,14 +2,13 @@ import React, {useCallback, useEffect} from 'react';
 import {Container, Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "./AddItemForm";
 import {TodoList} from "./TodoList";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../state/store";
-import {addTodoListAC, fetchTodoListsTC, TodoListDomainType} from "../state/todolists-reducer";
+import {useAppDispatch, useAppSelector} from "../state/store";
+import {addTodoListAC, fetchTodoListsTC} from "../state/todolists-reducer";
 
 export const TodoListContainer = React.memo(() => {
 
-	 const todoLists = useSelector<AppRootStateType, Array<TodoListDomainType>>(state => state.todoLists)
-	 const dispatch = useDispatch<any>()
+	 const todoLists = useAppSelector(state => state.todoLists)
+	 const dispatch = useAppDispatch()
 
 	 useEffect(() => {
 			dispatch(fetchTodoListsTC())

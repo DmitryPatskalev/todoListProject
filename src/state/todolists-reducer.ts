@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 import {todoListAPI, TodoListType} from "../api/todolist-api";
-import {Dispatch} from "redux";
+import {AppThunk} from "./store";
 
 
 export const todoListId1 = v1()
@@ -69,11 +69,14 @@ export const changeTodoListTitleAC = (todoListId: string, title: string) => ({
 
 export const setTodoListAC = (todoLists: Array<TodoListType>) => ({type: 'SET_TODOLIST', todoLists} as const)
 
-export const fetchTodoListsTC = () =>
-	(dispatch: Dispatch) => {
-		 todoListAPI.getTodoLists()
-			 .then(res => dispatch(setTodoListAC(res.data)))
-	}
+export const fetchTodoListsTC = (): AppThunk => async dispatch => {
+	 try {
+			const res = await todoListAPI.getTodoLists()
+			dispatch(setTodoListAC(res.data))
+	 } catch (e:any) {
+			throw new Error(e)
+	 }
+}
 
 export type TodoListActionsType =
 	| ReturnType<typeof addTodoListAC>

@@ -6,13 +6,13 @@ import {EditableSpan} from "./EditableSpan";
 import {IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {addTaskAC, fetchTasksTC} from "../state/tasks-reducer";
-import {useDispatch} from "react-redux";
 import {
 	 changeTodoListFilterAC,
 	 changeTodoListTitleAC,
 	 FilterValuesType,
 	 removeTodoListAC
 } from "../state/todolists-reducer";
+import {useAppDispatch} from "../state/store";
 
 
 export type TodoListPropsType = {
@@ -29,11 +29,11 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(({
 
 	 // console.log('TodoList is called')
 
-	 const dispatch = useDispatch<any>()
+	 const dispatch = useAppDispatch()
 
 	 useEffect(() => {
 			dispatch(fetchTasksTC(todoListId))
-	 },[])
+	 }, [])
 
 	 const deleteTodoList = useCallback(() => {
 			dispatch(removeTodoListAC(todoListId))

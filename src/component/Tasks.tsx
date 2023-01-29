@@ -3,10 +3,9 @@ import {EditableSpan} from "./EditableSpan";
 import {Checkbox, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../state/tasks-reducer";
-import {useDispatch, useSelector} from "react-redux";
-import {AppRootStateType} from "../state/store";
+import {useAppDispatch, useAppSelector} from "../state/store";
 import {FilterValuesType} from "../state/todolists-reducer";
-import {TaskStatuses, TaskType} from "../api/todolist-api";
+import {TaskStatuses} from "../api/todolist-api";
 
 
 export type TasksPropsType = {
@@ -17,8 +16,8 @@ export type TasksPropsType = {
 export const Tasks: React.FC<TasksPropsType> = React.memo(({todoListId, filter}) => {
 	 // console.log('Tasks is called')
 
-	 const tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[todoListId])
-	 const dispatch = useDispatch()
+	 const tasks = useAppSelector(state => state.tasks[todoListId])
+	 const dispatch = useAppDispatch()
 
 	 let taskForTodolist = tasks
 	 if (filter === 'Active') {
