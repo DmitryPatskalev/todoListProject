@@ -1,11 +1,11 @@
-import React, {useCallback} from "react";
+import React, {useCallback, useEffect} from "react";
 import {ButtonFilterTasks} from "./ButtonFilterTasks";
 import {Tasks} from "./Tasks";
 import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
-import {addTaskAC} from "../state/tasks-reducer";
+import {addTaskAC, fetchTasksTC} from "../state/tasks-reducer";
 import {useDispatch} from "react-redux";
 import {
 	 changeTodoListFilterAC,
@@ -29,7 +29,11 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(({
 
 	 // console.log('TodoList is called')
 
-	 const dispatch = useDispatch()
+	 const dispatch = useDispatch<any>()
+
+	 useEffect(() => {
+			dispatch(fetchTasksTC(todoListId))
+	 },[])
 
 	 const deleteTodoList = useCallback(() => {
 			dispatch(removeTodoListAC(todoListId))
