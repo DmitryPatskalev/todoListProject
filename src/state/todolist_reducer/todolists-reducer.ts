@@ -1,5 +1,5 @@
-import {todoListAPI, TodoListType} from "../api/todolist-api";
-import {AppThunk} from "./store";
+import {todoListAPI, TodoListType} from "../../api/todolist-api";
+import {AppThunk} from "../../app/store";
 
 
 export const initialTodolistState: Array<TodoListDomainType> = []
@@ -14,8 +14,7 @@ export const todolistsReducer = (state: Array<TodoListDomainType> = initialTodol
                                  action: TodoListActionsType): Array<TodoListDomainType> => {
     switch (action.type) {
         case "ADD_TODOLIST": {
-            const newTodolist: TodoListDomainType = {...action.todoList, filter: 'All'}
-            return [newTodolist, ...state]
+            return [{...action.todoList, filter: 'All'}, ...state]
         }
 
         case "REMOVE_TODOLIST": {
@@ -33,12 +32,11 @@ export const todolistsReducer = (state: Array<TodoListDomainType> = initialTodol
         case "SET_TODOLIST": {
             return action.todoLists.map(tl => ({...tl, filter: 'All'}))
         }
-
         default:
             return state
     }
 }
-
+//actions
 export const addTodoListAC = (todoList: TodoListType) => ({
     type: 'ADD_TODOLIST', todoList
 } as const)
@@ -58,6 +56,7 @@ export const changeTodoListTitleAC = (todoListId: string, title: string) => ({
 
 export const setTodoListAC = (todoLists: Array<TodoListType>) => ({type: 'SET_TODOLIST', todoLists} as const)
 
+// thunks
 export const fetchTodoListsTC = (): AppThunk => async dispatch => {
     try {
         const res = await todoListAPI.getTodoLists()
@@ -85,7 +84,6 @@ export const addTodoListTC = (title: string): AppThunk => async dispatch => {
     }
 }
 
-
 export const changeTodoListTitleTC = (todoListId: string, title: string): AppThunk => async dispatch => {
     try {
         await todoListAPI.updateTodoList(todoListId, title)
@@ -94,6 +92,7 @@ export const changeTodoListTitleTC = (todoListId: string, title: string): AppThu
 
     }
 }
+
 
 export type TodoListActionsType =
     | ReturnType<typeof addTodoListAC>

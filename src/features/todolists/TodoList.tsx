@@ -1,18 +1,18 @@
 import React, {useCallback, useEffect} from "react";
-import {ButtonFilterTasks} from "./ButtonFilterTasks";
-import {Tasks} from "./Tasks";
-import {AddItemForm} from "./AddItemForm";
-import {EditableSpan} from "./EditableSpan";
+import {ButtonFilterTasks} from "../../components/ButtonFilterTasks";
+import {Tasks} from "../tasks/Tasks";
+import {AddItemForm} from "../../components/AddItemForm/AddItemForm";
+import {EditableSpan} from "../../components/EditableSpan/EditableSpan";
 import {IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
-import {addTaskTC, fetchTasksTC} from "../state/tasks-reducer";
+import {addTaskTC, fetchTasksTC} from "../../state/task_reducer/tasks-reducer";
 import {
     changeTodoListFilterAC,
     changeTodoListTitleTC,
     deleteTodolistTC,
     FilterValuesType
-} from "../state/todolists-reducer";
-import {useAppDispatch} from "../state/store";
+} from "../../state/todolist_reducer/todolists-reducer";
+import {useAppDispatch} from "../../app/store";
 
 
 export type TodoListPropsType = {
@@ -50,7 +50,6 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(({
     const changeFilterTask = useCallback((todoListId: string, value: FilterValuesType) => {
         dispatch(changeTodoListFilterAC(todoListId, value))
     }, [])
-
 
     return (
         <div>

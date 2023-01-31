@@ -1,11 +1,11 @@
 import React, {ChangeEvent} from 'react';
-import {EditableSpan} from "./EditableSpan";
+import {EditableSpan} from "../../components/EditableSpan/EditableSpan";
 import {Checkbox, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
-import {removeTaskTC, updateTaskTC} from "../state/tasks-reducer";
-import {useAppDispatch, useAppSelector} from "../state/store";
-import {FilterValuesType} from "../state/todolists-reducer";
-import {TaskStatuses} from "../api/todolist-api";
+import {removeTaskTC, updateTaskTC} from "../../state/task_reducer/tasks-reducer";
+import {useAppDispatch, useAppSelector} from "../../app/store";
+import {FilterValuesType} from "../../state/todolist_reducer/todolists-reducer";
+import {TaskStatuses} from "../../api/todolist-api";
 
 
 export type TasksPropsType = {

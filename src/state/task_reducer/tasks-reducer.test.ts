@@ -1,8 +1,8 @@
 import {addTaskAC, removeTaskAC, setTasksAC, tasksReducer, TasksStateType, updateTaskAC} from "./tasks-reducer";
 
 import {v1} from "uuid";
-import {addTodoListAC, removeTodoListAC, setTodoListAC} from "./todolists-reducer";
-import {TaskPriorities, TaskStatuses} from "../api/todolist-api";
+import {addTodoListAC, removeTodoListAC, setTodoListAC} from "../todolist_reducer/todolists-reducer";
+import {TaskPriorities, TaskStatuses} from "../../api/todolist-api";
 
 const todoListId1 = v1()
 const todoListId2 = v1()

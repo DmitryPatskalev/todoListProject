@@ -1,6 +1,6 @@
 import React, {useCallback} from 'react';
 import {Button} from "@material-ui/core";
-import {FilterValuesType} from "../state/todolists-reducer";
+import {FilterValuesType} from "../state/todolist_reducer/todolists-reducer";
 
 
 

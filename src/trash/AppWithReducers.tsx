@@ -1,6 +1,6 @@
 import React, {useReducer} from 'react';
-import './App.css';
-import {AddItemForm} from "./component/AddItemForm";
+import '../app/App.css';
+import {AddItemForm} from "../components/AddItemForm/AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import {
@@ -11,15 +11,9 @@ import {
     initialTodolistState,
     removeTodoListAC,
     todolistsReducer
-} from "./state/todolists-reducer";
-import {
-    addTaskAC,
-    updateTaskAC,
-    initialTasksState,
-    removeTaskAC,
-    tasksReducer, updateTaskTC, UpdateDomainTaskModelType,
-} from "./state/tasks-reducer";
-import {TaskPriorities, TaskStatuses, UpdateTaskModelType} from "./api/todolist-api";
+} from "../state/todolist_reducer/todolists-reducer";
+import {addTaskAC, initialTasksState, removeTaskAC, tasksReducer, updateTaskAC,} from "../state/task_reducer/tasks-reducer";
+import {TaskPriorities, TaskStatuses} from "../api/todolist-api";
 
 
 function AppWithReducers() {
