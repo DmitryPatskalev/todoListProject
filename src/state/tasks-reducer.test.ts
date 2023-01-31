@@ -133,7 +133,18 @@ test('task in correct todolist should be removed', () => {
 test('task should be added in correct todolist', () => {
 
 	 const newTaskTitle = 'Skala'
-	 const action = addTaskAC(todoListId2, newTaskTitle)
+	 const action = addTaskAC({
+			todoListId: todoListId2,
+			title: newTaskTitle,
+			status: TaskStatuses.New,
+			addedDate: '',
+			deadline: '',
+			description: '',
+			order: 0,
+			startDate: '',
+			priority: TaskPriorities.Low,
+			id: '4'
+	 })
 	 const endState = tasksReducer(startState, action)
 
 	 expect(endState[todoListId2].length).toBe(4)
@@ -162,7 +173,12 @@ test('title in correct task should be changed', () => {
 
 test('new array should be added when new todolist is added', () => {
 
-	 const action = addTodoListAC('new todolist')
+	 const action = addTodoListAC({
+			id: v1(),
+			title: 'new todolist',
+			addedDate: '',
+			order: 0
+	 })
 	 const endState = tasksReducer(startState, action)
 
 	 const keys = Object.keys(endState)

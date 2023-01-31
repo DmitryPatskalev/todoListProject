@@ -90,7 +90,7 @@ export const tasksAPI = {
 			return instance.get<ResponceTasksType>(`${TODO_LISTS}/${todolistId}${TASKS}`)
 	 },
 	 createTask(todolistId: string, title: string) {
-			return instance.post<ResponceTasksType>(`${TODO_LISTS}/${todolistId}${TASKS}`, {title})
+			return instance.post<ResponceTodolistType<{ item: TaskType }>>(`${TODO_LISTS}/${todolistId}${TASKS}`, {title})
 	 },
 	 deleteTask(todolistId: string, taskId: string) {
 			return instance.delete<ResponceTasksType>(`${TODO_LISTS}/${todolistId}${TASKS}/${taskId}`)

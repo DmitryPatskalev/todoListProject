@@ -5,12 +5,12 @@ import {AddItemForm} from "./AddItemForm";
 import {EditableSpan} from "./EditableSpan";
 import {IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
-import {addTaskAC, fetchTasksTC} from "../state/tasks-reducer";
+import {addTaskAC, addTaskTC, fetchTasksTC} from "../state/tasks-reducer";
 import {
 	 changeTodoListFilterAC,
-	 changeTodoListTitleAC,
-	 FilterValuesType,
-	 removeTodoListAC
+	 changeTodoListTitleTC,
+	 deleteTodolistTC,
+	 FilterValuesType
 } from "../state/todolists-reducer";
 import {useAppDispatch} from "../state/store";
 
@@ -36,15 +36,15 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(({
 	 }, [])
 
 	 const deleteTodoList = useCallback(() => {
-			dispatch(removeTodoListAC(todoListId))
+			dispatch(deleteTodolistTC(todoListId))
 	 }, [])
 
 	 const addNewTask = useCallback((title: string) => {
-			dispatch(addTaskAC(todoListId, title))
+			dispatch(addTaskTC(todoListId, title))
 	 }, [])
 
 	 const changeTodoTitle = useCallback((title: string) => {
-			dispatch(changeTodoListTitleAC(todoListId, title))
+			dispatch(changeTodoListTitleTC(todoListId, title))
 	 }, [])
 
 	 const changeFilterTask = useCallback((todoListId: string, value: FilterValuesType) => {

@@ -3,7 +3,7 @@ import {Container, Grid, Paper} from "@material-ui/core";
 import {AddItemForm} from "./AddItemForm";
 import {TodoList} from "./TodoList";
 import {useAppDispatch, useAppSelector} from "../state/store";
-import {addTodoListAC, fetchTodoListsTC} from "../state/todolists-reducer";
+import {addTodoListTC, fetchTodoListsTC} from "../state/todolists-reducer";
 
 export const TodoListContainer = React.memo(() => {
 
@@ -15,7 +15,8 @@ export const TodoListContainer = React.memo(() => {
 	 }, [])
 
 	 const addTodoList = useCallback((title: string) => {
-			dispatch(addTodoListAC(title))
+			debugger
+			dispatch(addTodoListTC(title))
 	 }, [])
 
 	 return (

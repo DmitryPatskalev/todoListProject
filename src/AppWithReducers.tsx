@@ -20,7 +20,7 @@ import {
 	 removeTaskAC,
 	 tasksReducer,
 } from "./state/tasks-reducer";
-import {TaskStatuses} from "./api/todolist-api";
+import {TaskPriorities, TaskStatuses} from "./api/todolist-api";
 
 
 function AppWithReducers() {
@@ -35,8 +35,18 @@ function AppWithReducers() {
 	 }
 
 	 const addTodoList = (title: string) => {
-			dispatchToTodolist(addTodoListAC(title))
-			dispatchToTasks(addTodoListAC(title))
+			dispatchToTodolist(addTodoListAC({
+				 id: '111',
+				 title: title,
+				 addedDate: '',
+				 order: 0
+			}))
+			dispatchToTasks(addTodoListAC({
+				 id:'111',
+				 title: title,
+				 addedDate: '',
+				 order: 0
+			}))
 	 }
 
 	 const changeTodoListTitle = (todoListId: string, title: string) => {
@@ -55,7 +65,19 @@ function AppWithReducers() {
 
 
 	 const addTask = (todoListId: string, title: string) => {
-			dispatchToTasks(addTaskAC(todoListId, title))
+			dispatchToTasks(addTaskAC({
+					 todoListId: todoListId,
+					 title: title,
+					 status: TaskStatuses.New,
+					 addedDate: '',
+					 deadline: '',
+					 description: '',
+					 order: 0,
+					 startDate: '',
+					 priority: TaskPriorities.Low,
+					 id: '4'
+				})
+			)
 	 }
 
 

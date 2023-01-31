@@ -2,7 +2,13 @@ import React, {ChangeEvent} from 'react';
 import {EditableSpan} from "./EditableSpan";
 import {Checkbox, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
-import {changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "../state/tasks-reducer";
+import {
+	 changeTaskStatusAC,
+	 changeTaskStatusTC,
+	 changeTaskTitleAC,
+	 removeTaskAC,
+	 removeTaskTC
+} from "../state/tasks-reducer";
 import {useAppDispatch, useAppSelector} from "../state/store";
 import {FilterValuesType} from "../state/todolists-reducer";
 import {TaskStatuses} from "../api/todolist-api";
@@ -32,12 +38,12 @@ export const Tasks: React.FC<TasksPropsType> = React.memo(({todoListId, filter})
 				{taskForTodolist.map(t => {
 
 					 const changeStatus = (event: ChangeEvent<HTMLInputElement>) => {
-							dispatch(changeTaskStatusAC(todoListId, t.id,
+							dispatch(changeTaskStatusTC(todoListId, t.id,
 								event.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New))
 					 }
 
 					 const deleteTasks = () => {
-							dispatch(removeTaskAC(todoListId, t.id))
+							dispatch(removeTaskTC(todoListId, t.id))
 					 }
 
 					 const changeTitle = (title: string) => {
