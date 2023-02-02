@@ -4,7 +4,7 @@ import {AddBox} from "@material-ui/icons";
 
 export type AddItemFormType = {
 	 addItem: (title: string) => void
-	disabled?:boolean
+	 disabled?: boolean
 }
 
 export const AddItemForm: React.FC<AddItemFormType> = React.memo(({addItem, disabled}) => {
