@@ -4,9 +4,10 @@ import {AddBox} from "@material-ui/icons";
 
 export type AddItemFormType = {
 	 addItem: (title: string) => void
+	disabled?:boolean
 }
 
-export const AddItemForm: React.FC<AddItemFormType> = React.memo(({addItem}) => {
+export const AddItemForm: React.FC<AddItemFormType> = React.memo(({addItem, disabled}) => {
 
 	 // console.log('AddItemForm is called')
 
@@ -38,13 +39,14 @@ export const AddItemForm: React.FC<AddItemFormType> = React.memo(({addItem}) => 
 				<TextField
 					variant={'outlined'}
 					error={!!error}
+					disabled={disabled}
 					label={'New title'}
 					value={newTaskTitle}
 					helperText={error}
 					onChange={onChangeHundler}
 					onKeyPress={onKeyPressHundler}
 				/>
-				<IconButton color={'primary'} onClick={addNewItem}>
+				<IconButton color={'primary'} onClick={addNewItem} disabled={disabled}>
 					 <AddBox/>
 				</IconButton>
 		 </div>

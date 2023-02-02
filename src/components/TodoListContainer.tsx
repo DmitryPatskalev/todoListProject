@@ -3,14 +3,13 @@ import {Container, Grid, LinearProgress, Paper} from "@material-ui/core";
 import {AddItemForm} from "./AddItemForm/AddItemForm";
 import {TodoList} from "../features/todolists/TodoList";
 import {useAppDispatch, useAppSelector} from "../app/store";
-import {addTodoListTC, fetchTodoListsTC} from "../state/todolist_reducer/todolists-reducer";
+import {addTodoListTC, fetchTodoListsTC, TodoListDomainType} from "../state/todolist_reducer/todolists-reducer";
 import {ErrorSnackBar} from "./ErrorSnackBar/ErrorSnackBar";
 
 export const TodoListContainer = React.memo(() => {
 
    const dispatch = useAppDispatch()
    const todoLists = useAppSelector(state => state.todoLists)
-   const status = useAppSelector(state => state.app.status)
 
 
    useEffect(() => {

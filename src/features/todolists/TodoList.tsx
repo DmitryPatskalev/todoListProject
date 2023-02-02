@@ -10,9 +10,9 @@ import {
     changeTodoListFilterAC,
     changeTodoListTitleTC,
     deleteTodolistTC,
-    FilterValuesType
+    FilterValuesType, TodoListDomainType
 } from "../../state/todolist_reducer/todolists-reducer";
-import {useAppDispatch} from "../../app/store";
+import {useAppDispatch, useAppSelector} from "../../app/store";
 
 
 export type TodoListPropsType = {
@@ -30,6 +30,8 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(({
     // console.log('TodoList is called')
 
     const dispatch = useAppDispatch()
+    const status = useAppSelector(state => state.app.status)
+
 
     useEffect(() => {
         dispatch(fetchTasksTC(todoListId))
@@ -56,13 +58,13 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(({
             <h3>
                 <EditableSpan title={todoListTitle} onChange={changeTodoTitle}/>
 
-                <IconButton onClick={deleteTodoList}>
+                <IconButton onClick={deleteTodoList} disabled={status === 'loading'}>
                     <Delete/>
                 </IconButton>
             </h3>
 
             <div>
-                <AddItemForm addItem={addNewTask}/>
+                <AddItemForm addItem={addNewTask} disabled={status === 'loading'}/>
             </div>
 
             <Tasks
