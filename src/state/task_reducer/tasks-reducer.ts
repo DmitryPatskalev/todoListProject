@@ -82,7 +82,7 @@ export const fetchTasksTC = (todoListId: string): AppThunk => async dispatch => 
             handleServiceAppError(res.data.items, dispatch)
         }
     } catch (error: any) {
-        handleNetworkServerError(error.message, dispatch)
+        handleNetworkServerError(error, dispatch)
 
     }
 }
@@ -98,7 +98,8 @@ export const addTaskTC = (todoListId: string, title: string): AppThunk => async 
             handleServiceAppError(res.data, dispatch)
         }
     } catch (error: any) {
-        handleNetworkServerError(error.message, dispatch)
+        console.log(error)
+        handleNetworkServerError(error, dispatch)
     }
 }
 
@@ -113,7 +114,7 @@ export const removeTaskTC = (todoListId: string, taskId: string): AppThunk => as
             handleServiceAppError(res.data, dispatch)
         }
     } catch (error: any) {
-        handleNetworkServerError(error.message, dispatch)
+        handleNetworkServerError(error, dispatch)
     }
 }
 
@@ -142,8 +143,8 @@ export const updateTaskTC = (todoListId: string, taskId: string, domainModel: Up
         } else {
             handleServiceAppError(task, dispatch)
         }
-    } catch (error: any) {
-        handleNetworkServerError(error.message, dispatch)
+    } catch (error:any) {
+        handleNetworkServerError(error, dispatch)
     }
 }
 

@@ -8,41 +8,44 @@ import {ErrorSnackBar} from "./ErrorSnackBar/ErrorSnackBar";
 
 export const TodoListContainer = React.memo(() => {
 
-    const dispatch = useAppDispatch()
-    const todoLists = useAppSelector(state => state.todoLists)
-    const status = useAppSelector(state => state.app.status)
+	 const dispatch = useAppDispatch()
+	 const todoLists = useAppSelector(state => state.todoLists)
+	 const status = useAppSelector(state => state.app.status)
 
-    useEffect(() => {
-        dispatch(fetchTodoListsTC())
-    }, [])
 
-    const addTodoList = useCallback((title: string) => {
-        dispatch(addTodoListTC(title))
-    }, [])
 
-    return (
-        <>
-            {status === 'loading' && <LinearProgress/>}
-            <Container fixed>
-                <ErrorSnackBar/>
-                <Grid container style={{padding: '15px'}}>
-                    <AddItemForm addItem={addTodoList} disabled={status === 'loading'}/>
-                </Grid>
-                <Grid container spacing={3}>
-                    {todoLists.map(tl => {
-                        return <Grid item>
-                            <Paper elevation={3} style={{padding: '10px'}}>
-                                <TodoList
-                                    key={tl.id}
-                                    todoListId={tl.id}
-                                    todoListTitle={tl.title}
-                                    filter={tl.filter}
-                                />
-                            </Paper>
-                        </Grid>
-                    })}
-                </Grid>
-            </Container>
-        </>
-    );
+	 useEffect(() => {
+			dispatch(fetchTodoListsTC())
+	 }, [])
+
+	 const addTodoList = useCallback((title: string) => {
+			dispatch(addTodoListTC(title))
+	 }, [])
+
+
+			return (
+				<>
+					 {status === 'loading' && <LinearProgress/>}
+					 <Container fixed>
+							<ErrorSnackBar/>
+							<Grid container style={{padding: '15px'}}>
+								 <AddItemForm addItem={addTodoList} disabled={status === 'loading'}/>
+							</Grid>
+							<Grid container spacing={3}>
+								 {todoLists.map(tl => {
+										return <Grid item>
+											 <Paper elevation={3} style={{padding: '10px'}}>
+													<TodoList
+														key={tl.id}
+														todoListId={tl.id}
+														todoListTitle={tl.title}
+														filter={tl.filter}
+													/>
+											 </Paper>
+										</Grid>
+								 })}
+							</Grid>
+					 </Container>
+				</>
+			);
 });

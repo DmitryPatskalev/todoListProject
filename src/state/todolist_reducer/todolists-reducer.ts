@@ -1,6 +1,6 @@
 import {todoListAPI, TodoListType} from "../../api/todolist-api";
 import {AppThunk} from "../../app/store";
-import {RequestStatusType, setAppErrorAC, setAppStatusAC} from "../../app/app-reducer";
+import {RequestStatusType, setAppStatusAC} from "../../app/app-reducer";
 import {handleNetworkServerError, handleServiceAppError} from "../../utils/error-utils";
 
 
@@ -81,8 +81,9 @@ export const fetchTodoListsTC = (): AppThunk => async dispatch => {
         } else {
             handleServiceAppError(res.data, dispatch)
         }
-    } catch (error: any) {
-        handleServiceAppError(error.message, dispatch)
+    } catch (error:any) {
+        console.log(error)
+        handleNetworkServerError(error, dispatch)
     }
 }
 
@@ -98,7 +99,7 @@ export const deleteTodolistTC = (todoListId: string): AppThunk => async dispatch
             handleServiceAppError(res.data, dispatch)
         }
     } catch (error: any) {
-        handleNetworkServerError(error.message, dispatch)
+        handleNetworkServerError(error, dispatch)
     }
 }
 
@@ -107,13 +108,14 @@ export const addTodoListTC = (title: string): AppThunk => async dispatch => {
         dispatch(setAppStatusAC('loading'))
         const res = await todoListAPI.createTodoList(title)
         if (res.data.resultCode === 0) {
+            console.log(res)
             dispatch(addTodoListAC(res.data.data.item))
             dispatch(setAppStatusAC('succeeded'))
         } else {
             handleServiceAppError(res.data, dispatch)
         }
     } catch (error: any) {
-        handleNetworkServerError(error.message, dispatch)
+        handleNetworkServerError(error, dispatch)
     }
 }
 
@@ -128,7 +130,7 @@ export const changeTodoListTitleTC = (todoListId: string, title: string): AppThu
             handleServiceAppError(res.data, dispatch)
         }
     } catch (error: any) {
-        handleNetworkServerError(error.message, dispatch)
+        handleNetworkServerError(error, dispatch)
     }
 }
 
