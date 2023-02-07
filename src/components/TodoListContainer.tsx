@@ -3,47 +3,46 @@ import {Container, Grid, LinearProgress, Paper} from "@material-ui/core";
 import {AddItemForm} from "./AddItemForm/AddItemForm";
 import {TodoList} from "../features/todolists/TodoList";
 import {useAppDispatch, useAppSelector} from "../app/store";
-import {addTodoListTC, fetchTodoListsTC, TodoListDomainType} from "../state/todolist_reducer/todolists-reducer";
+import {addTodoListTC, fetchTodoListsTC} from "../state/todolist_reducer/todolists-reducer";
 import {ErrorSnackBar} from "./ErrorSnackBar/ErrorSnackBar";
 
 export const TodoListContainer = React.memo(() => {
 
-	 const dispatch = useAppDispatch()
-	 const todoLists = useAppSelector(state => state.todoLists)
-	 const status = useAppSelector(state => state.app.status)
+    const dispatch = useAppDispatch()
+    const todoLists = useAppSelector(state => state.todoLists)
+    const status = useAppSelector(state => state.app.status)
 
+    useEffect(() => {
+        dispatch(fetchTodoListsTC())
+    }, [])
 
-	 useEffect(() => {
-			dispatch(fetchTodoListsTC())
-	 }, [])
+    const addTodoList = useCallback((title: string) => {
+        dispatch(addTodoListTC(title))
+    }, [])
 
-	 const addTodoList = useCallback((title: string) => {
-			dispatch(addTodoListTC(title))
-	 }, [])
-
-	 return (
-		 <>
-				{status === 'loading' && <LinearProgress/>}
-				<Container fixed>
-					 <ErrorSnackBar/>
-					 <Grid container style={{padding: '15px'}}>
-							<AddItemForm addItem={addTodoList} disabled={status === 'loading'}/>
-					 </Grid>
-					 <Grid container spacing={3}>
-							{todoLists.map(tl => {
-								 return <Grid item>
-										<Paper elevation={3} style={{padding: '10px'}}>
-											 <TodoList
-												 key={tl.id}
-												 todoListId={tl.id}
-												 todoListTitle={tl.title}
-												 filter={tl.filter}
-											 />
-										</Paper>
-								 </Grid>
-							})}
-					 </Grid>
-				</Container>
-		 </>
-	 );
+    return (
+        <>
+            {status === 'loading' && <LinearProgress/>}
+            <Container fixed>
+                <ErrorSnackBar/>
+                <Grid container style={{padding: '15px'}}>
+                    <AddItemForm addItem={addTodoList} disabled={status === 'loading'}/>
+                </Grid>
+                <Grid container spacing={3}>
+                    {todoLists.map(tl => {
+                        return <Grid item>
+                            <Paper elevation={3} style={{padding: '10px'}}>
+                                <TodoList
+                                    key={tl.id}
+                                    todoListId={tl.id}
+                                    todoListTitle={tl.title}
+                                    filter={tl.filter}
+                                />
+                            </Paper>
+                        </Grid>
+                    })}
+                </Grid>
+            </Container>
+        </>
+    );
 });

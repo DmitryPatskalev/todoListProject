@@ -9,7 +9,8 @@ export const instance = axios.create({
 })
 const PATH = {
     TODO_LISTS: '/todo-lists',
-    TASKS: '/tasks'
+    TASKS: '/tasks',
+    AUTH: '/auth/login'
 }
 
 export const todoListAPI = {
@@ -41,6 +42,19 @@ export const tasksAPI = {
     updateTask(todolistId: string, taskId: string, model: UpdateTaskModelType) {
         return instance.put<ResponceTasksType>(`${PATH.TODO_LISTS}/${todolistId}${PATH.TASKS}/${taskId}`, model)
     }
+}
+export type LoginParamsType = {
+    email: string
+    password: string
+    rememberMe: boolean
+    captcha?: string
+}
+
+export const authAPI = {
+    login(data: LoginParamsType) {
+        return instance.post<ResponceTodolistType<{ userId?: number }>>(PATH.AUTH, data)
+    }
+
 }
 
 //api types
