@@ -23,5 +23,11 @@
     opacity: 0.5;
 }
 
+.spinner {
+    width: 300px;
+    height: 300px;
+    margin-left: 200px;
+}
+
 /*//"storybook": "start-storybook -p 6006 -s public",*/
 /*//"build-storybook": "build-storybook -s public"*/

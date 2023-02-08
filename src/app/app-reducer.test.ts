@@ -3,20 +3,21 @@ import {appReducer, InitialAppStateType, setAppErrorAC, setAppStatusAC} from "./
 let startState: InitialAppStateType
 
 beforeEach(() => {
-    startState = {
-        status: 'idle',
-        error: null
-    }
+	 startState = {
+			status: 'idle',
+			error: null,
+			isInitialized: false
+	 }
 })
 
 test('error message should be set', () => {
-    const endState = appReducer(startState, setAppErrorAC('Error'))
+	 const endState = appReducer(startState, setAppErrorAC('Error'))
 
-    expect(endState.error).toBe('Error')
+	 expect(endState.error).toBe('Error')
 })
 
 test('correct status should be set', () => {
-    const endState = appReducer(startState, setAppStatusAC('loading'))
+	 const endState = appReducer(startState, setAppStatusAC('loading'))
 
-    expect(endState.status).toBe('loading')
+	 expect(endState.status).toBe('loading')
 })

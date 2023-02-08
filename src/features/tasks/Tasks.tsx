@@ -9,54 +9,54 @@ import {TaskStatuses} from "../../api/todolist-api";
 
 
 export type TasksPropsType = {
-    todoListId: string
-    filter: FilterValuesType
+	 todoListId: string
+	 filter: FilterValuesType
 }
 
 export const Tasks: React.FC<TasksPropsType> = React.memo(({todoListId, filter}) => {
-    // console.log('Tasks is called')
+	 // console.log('Tasks is called')
 
-    const tasks = useAppSelector(state => state.tasks[todoListId])
-    const dispatch = useAppDispatch()
+	 const tasks = useAppSelector(state => state.tasks[todoListId])
+	 const dispatch = useAppDispatch()
 
-    let taskForTodolist = tasks
-    if (filter === 'Active') {
-        taskForTodolist = tasks.filter(t => t.status === TaskStatuses.New)
-    }
-    if (filter === 'Completed') {
-        taskForTodolist = tasks.filter(t => t.status === TaskStatuses.Completed)
-    }
+	 let taskForTodolist = tasks
+	 if (filter === 'Active') {
+			taskForTodolist = tasks.filter(t => t.status === TaskStatuses.New)
+	 }
+	 if (filter === 'Completed') {
+			taskForTodolist = tasks.filter(t => t.status === TaskStatuses.Completed)
+	 }
 
-    return (
-        <>
-            {taskForTodolist.map(t => {
+	 return (
+		 <>
+				{taskForTodolist.map(t => {
 
-                const changeStatus = (event: ChangeEvent<HTMLInputElement>) => {
-                    dispatch(updateTaskTC(todoListId, t.id,
-                        {status: event.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New}))
-                }
+					 const changeStatus = (event: ChangeEvent<HTMLInputElement>) => {
+							dispatch(updateTaskTC(todoListId, t.id,
+								{status: event.currentTarget.checked ? TaskStatuses.Completed : TaskStatuses.New}))
+					 }
 
-                const deleteTasks = () => {
-                    dispatch(removeTaskTC(todoListId, t.id))
-                }
+					 const deleteTasks = () => {
+							dispatch(removeTaskTC(todoListId, t.id))
+					 }
 
-                const changeTitle = (title: string) => {
-                    dispatch(updateTaskTC(todoListId, t.id, {title}))
-                }
+					 const changeTitle = (title: string) => {
+							dispatch(updateTaskTC(todoListId, t.id, {title}))
+					 }
 
-                return <div key={t.id} className={t.status === TaskStatuses.Completed ? 'is-done' : ''}>
-                    <Checkbox
-                        color={'primary'}
-                        checked={t.status === TaskStatuses.Completed}
-                        onChange={changeStatus}
-                    />
-                    <EditableSpan onChange={changeTitle} title={t.title}/>
-                    <IconButton onClick={deleteTasks}>
-                        <Delete/>
-                    </IconButton>
-                </div>
-            })}
-        </>
-    );
+					 return <div key={t.id} className={t.status === TaskStatuses.Completed ? 'is-done' : ''}>
+							<Checkbox
+								color={'primary'}
+								checked={t.status === TaskStatuses.Completed}
+								onChange={changeStatus}
+							/>
+							<EditableSpan onChange={changeTitle} title={t.title}/>
+							<IconButton onClick={deleteTasks}>
+								 <Delete/>
+							</IconButton>
+					 </div>
+				})}
+		 </>
+	 );
 });
 

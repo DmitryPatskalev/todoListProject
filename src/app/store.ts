@@ -7,19 +7,19 @@ import {appReducer, AppReducerActionsType} from "./app-reducer";
 import {AuthActionsType, authReducer} from "../features/login/AuthReducer";
 
 export const rootReducer = combineReducers({
-    todoLists: todolistsReducer,
-    tasks: tasksReducer,
-    app: appReducer,
-    auth: authReducer
+	 todoLists: todolistsReducer,
+	 tasks: tasksReducer,
+	 app: appReducer,
+	 auth: authReducer
 })
 
 export const store = createStore(rootReducer, applyMiddleware(thunk))
 
 export type AppActionsType =
-    | TodoListActionsType
-    | TasksActionType
-    | AppReducerActionsType
-    | AuthActionsType
+	| TodoListActionsType
+	| TasksActionType
+	| AppReducerActionsType
+	| AuthActionsType
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
 export type AppDispatch = ThunkDispatch<AppRootStateType, unknown, AppActionsType>

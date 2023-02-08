@@ -5,34 +5,56 @@ import {authAPI, LoginParamsType} from "../../api/todolist-api";
 import {handleNetworkServerError, handleServiceAppError} from "../../utils/error-utils";
 
 export const authInitialState = {
-    isLoggedIn: false
+	 isLoggedIn: false
 }
 type InitialStateType = typeof authInitialState
 
 export const authReducer = (state: InitialStateType = authInitialState, action: AuthActionsType): InitialStateType => {
-    switch (action.type) {
-        case "login/SET_IS_LOGGED_IN":
-            return {...state, isLoggedIn: action.isLoggedIn}
-        default:
-            return state
-    }
+	 switch (action.type) {
+			case "login/SET_IS_LOGGED_IN":
+				 return {...state, isLoggedIn: action.isLoggedIn}
+
+			case "login/SET_LOG_OUT":
+				 return {...state, isLoggedIn: action.logOut}
+			default:
+				 return state
+	 }
 }
 
-export type AuthActionsType = ReturnType<typeof setIsLoggedInAC>
+export type AuthActionsType =
+	| ReturnType<typeof setIsLoggedInAC>
+	| ReturnType<typeof setLogOutAC>
 
 export const setIsLoggedInAC = (isLoggedIn: boolean) => ({type: 'login/SET_IS_LOGGED_IN', isLoggedIn} as const)
 
-export const loginTC = (data: LoginParamsType): AppThunk => async dispatch => {
-    dispatch(setAppStatusAC('loading'))
-    try {
+export const setLogOutAC = (logOut: boolean) => ({
+	 type: 'login/SET_LOG_OUT', logOut
+} as const)
 
-        const res = await authAPI.login(data)
-        if (res.data.resultCode === 0) {
-            dispatch(setAppStatusAC('succeeded'))
-            dispatch(setIsLoggedInAC(true))
-        } else
-            handleServiceAppError(res.data, dispatch)
-    } catch (error: any) {
-        handleNetworkServerError(error.message, dispatch)
-    }
+export const loginTC = (data: LoginParamsType): AppThunk => async dispatch => {
+	 try {
+			dispatch(setAppStatusAC('loading'))
+			const res = await authAPI.login(data)
+			if (res.data.resultCode === 0) {
+				 dispatch(setAppStatusAC('succeeded'))
+				 dispatch(setIsLoggedInAC(true))
+			} else
+				 handleServiceAppError(res.data, dispatch)
+	 } catch (error: any) {
+			handleNetworkServerError(error, dispatch)
+	 }
+}
+
+export const logOutTC = (): AppThunk => async dispatch => {
+	 try {
+			dispatch(setAppStatusAC('loading'))
+			const res = await authAPI.logOut()
+			if (res.data.resultCode === 0) {
+				 dispatch(setIsLoggedInAC(false))
+				 dispatch(setAppStatusAC('succeeded'))
+			} else
+				 handleServiceAppError(res.data, dispatch)
+	 } catch (error: any) {
+			handleNetworkServerError(error, dispatch)
+	 }
 }

@@ -134,7 +134,6 @@ export const changeTodoListTitleTC = (todoListId: string, title: string): AppThu
     }
 }
 
-
 export type TodoListActionsType =
     | ReturnType<typeof addTodoListAC>
     | ReturnType<typeof removeTodoListAC>
