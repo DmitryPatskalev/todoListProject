@@ -2,6 +2,7 @@ import React from "react";
 import {AppThunk} from "./store";
 import {authAPI} from "../api/todolist-api";
 import {setIsLoggedInAC} from "../features/login/AuthReducer";
+import {handleNetworkServerError, handleServiceAppError} from "../utils/error-utils";
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
@@ -46,11 +47,11 @@ export const initializeAppTC = (): AppThunk => async dispatch => {
 			if (res.data.resultCode === 0) {
 				 dispatch(setIsLoggedInAC(true))
 			} else {
-
+				handleServiceAppError(res.data, dispatch)
 			}
 			dispatch(setAppIsInitializedAC(true))
 	 } catch (error: any) {
-
+		 handleNetworkServerError(error, dispatch)
 	 }
 }
 
