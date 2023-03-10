@@ -1,28 +1,27 @@
-
-.fieldPassword, .fieldEmail {
-    display: flex;
-    flex-direction: column;
-    height: 120px;
-    color: red;
-    text-align: center;
+.fieldPassword,
+.fieldEmail {
+  display: flex;
+  flex-direction: column;
+  height: 120px;
+  color: red;
+  text-align: center;
 }
 
 .title {
-    display: block;
-    text-align: center;
-    margin: 10px 0;
-    font-size: 20px;
-    font-family: Neucha, cursive;
-    color: blue;
-
+  display: block;
+  text-align: center;
+  margin: 10px 0;
+  font-size: 20px;
+  font-family: Neucha, cursive;
+  color: blue;
 }
 
 .fieldInput {
-    display: block;
-    text-align: center;
-    font-family: Neucha, cursive;
-    height: 20px;
-    padding: 10px 0;
-    font-size: 16px;
-    border-radius: 5px;
+  display: block;
+  text-align: center;
+  font-family: Neucha, cursive;
+  height: 20px;
+  padding: 10px 0;
+  font-size: 16px;
+  border-radius: 5px;
 }
