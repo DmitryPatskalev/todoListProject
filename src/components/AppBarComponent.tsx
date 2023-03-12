@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
 import { useAppDispatch, useAppSelector } from "../app/store";
-import { logOutTC } from "../features/login/AuthReducer";
+import { logOutTC } from "../features/login/auth-reducer";
 
 export const AppBarComponent = React.memo(() => {
   const dispatch = useAppDispatch();

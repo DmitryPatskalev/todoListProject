@@ -10,7 +10,7 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import s from "./Login.module.css";
 import { useAppDispatch, useAppSelector } from "../../app/store";
-import { loginTC } from "./AuthReducer";
+import { loginTC } from "./auth-reducer";
 import { Navigate } from "react-router-dom";
 
 export const Login = () => {

@@ -34,8 +34,8 @@ export const TodoList: React.FC<TodoListPropsType> = React.memo(
     );
 
     const changeFilter = useCallback(
-      (todolistId: string, value: FilterValuesType) => {
-        dispatch(changeTodoListFilterAC(todolistId, value));
+      (todoListId: string, filter: FilterValuesType) => {
+        dispatch(changeTodoListFilterAC({ todoListId, filter }));
       },
       []
     );

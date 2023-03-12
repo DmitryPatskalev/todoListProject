@@ -62,17 +62,19 @@ function AppWithReducers() {
   };
 
   const changeTodoListTitle = (todoListId: string, title: string) => {
-    dispatchToTodolist(changeTodoListTitleAC(todoListId, title));
+    dispatchToTodolist(
+      changeTodoListTitleAC({ todoListId: todoListId, title })
+    );
   };
 
   const changeFilterTask = (todoListId: string, value: FilterValuesType) => {
-    dispatchToTodolist(changeTodoListFilterAC(todoListId, value));
+    dispatchToTodolist(changeTodoListFilterAC({ todoListId, filter: value }));
   };
 
   //tasks
 
   const removeTask = (todoListId: string, taskId: string) => {
-    dispatchToTasks(removeTaskAC(todoListId, taskId));
+    dispatchToTasks(removeTaskAC({ todoListId, taskId }));
   };
 
   const addTask = (todoListId: string, title: string) => {
@@ -97,7 +99,15 @@ function AppWithReducers() {
     taskId: string,
     status: TaskStatuses
   ) => {
-    dispatchToTasks(updateTaskAC(todoListId, taskId, { status }));
+    dispatchToTasks(
+      updateTaskAC({
+        todoListId,
+        taskId,
+        model: {
+          status,
+        },
+      })
+    );
   };
 
   const changeTaskTitle = (
@@ -105,7 +115,15 @@ function AppWithReducers() {
     taskId: string,
     title: string
   ) => {
-    dispatchToTasks(updateTaskAC(todoListId, taskId, { title }));
+    dispatchToTasks(
+      updateTaskAC({
+        todoListId,
+        taskId,
+        model: {
+          title,
+        },
+      })
+    );
   };
 
   return (

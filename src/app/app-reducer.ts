@@ -1,11 +1,11 @@
-import React from "react";
 import { AppThunk } from "./store";
 import { authAPI } from "../api/todolist-api";
-import { setIsLoggedInAC } from "../features/login/AuthReducer";
+import { setIsLoggedInAC } from "../features/login/auth-reducer";
 import {
   handleNetworkServerError,
   handleServiceAppError,
 } from "../utils/error-utils";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed";
 
@@ -21,33 +21,25 @@ export const initialAppState: InitialAppStateType = {
   isInitialized: false,
 };
 
-export const appReducer = (
-  state: InitialAppStateType = initialAppState,
-  action: AppReducerActionsType
-): InitialAppStateType => {
-  switch (action.type) {
-    case "APP/SET_STATUS":
-      return { ...state, status: action.status };
+const slice = createSlice({
+  name: "app",
+  initialState: initialAppState,
+  reducers: {
+    setAppStatusAC(state, action: PayloadAction<RequestStatusType>) {
+      state.status = action.payload;
+    },
+    setAppErrorAC(state, action: PayloadAction<string | null>) {
+      state.error = action.payload;
+    },
+    setAppIsInitializedAC(state, action: PayloadAction<boolean>) {
+      state.isInitialized = action.payload;
+    },
+  },
+});
 
-    case "APP/SET_ERROR":
-      return { ...state, error: action.error };
-
-    case "APP/SET_INITIALIZE":
-      return { ...state, isInitialized: action.isInitialized };
-
-    default:
-      return state;
-  }
-};
-
-export const setAppStatusAC = (status: RequestStatusType) =>
-  ({ type: "APP/SET_STATUS", status } as const);
-
-export const setAppErrorAC = (error: string | null) =>
-  ({ type: "APP/SET_ERROR", error } as const);
-
-export const setAppIsInitializedAC = (isInitialized: boolean) =>
-  ({ type: "APP/SET_INITIALIZE", isInitialized } as const);
+export const appReducer = slice.reducer;
+export const { setAppStatusAC, setAppErrorAC, setAppIsInitializedAC } =
+  slice.actions;
 
 export const initializeAppTC = (): AppThunk => async (dispatch) => {
   try {

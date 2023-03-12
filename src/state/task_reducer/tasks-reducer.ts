@@ -15,6 +15,7 @@ import {
   handleNetworkServerError,
   handleServiceAppError,
 } from "../../utils/error-utils";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type TasksStateType = {
   [key: string]: Array<TaskType>;
@@ -22,92 +23,67 @@ export type TasksStateType = {
 
 export const initialTasksState: TasksStateType = {};
 
-export const tasksReducer = (
-  state: TasksStateType = initialTasksState,
-  action: TasksActionType
-): TasksStateType => {
-  switch (action.type) {
-    case "REMOVE_TASK":
-      return {
-        ...state,
-        [action.todoListId]: state[action.todoListId].filter(
-          (t) => t.id !== action.taskId
-        ),
-      };
-
-    case "ADD_TASK":
-      return {
-        ...state,
-        [action.task.todoListId]: [
-          action.task,
-          ...state[action.task.todoListId],
-        ],
-      };
-
-    case "UPDATE_TASK":
-      return {
-        ...state,
-        [action.todoListId]: state[action.todoListId].map((t) =>
-          t.id === action.taskId
-            ? {
-                ...t,
-                ...action.model,
-              }
-            : t
-        ),
-      };
-
-    case "ADD_TODOLIST":
-      return { ...state, [action.todoList.id]: [] };
-
-    case "REMOVE_TODOLIST": {
-      const copyState = { ...state };
-      delete copyState[action.todoListId];
-      return copyState;
-    }
-
-    case "SET_TODOLIST": {
-      const copyState = { ...state };
-      action.todoLists.forEach((tl) => (copyState[tl.id] = []));
-      return copyState;
-    }
-
-    case "SET_TASKS":
-      return { ...state, [action.todoListId]: action.tasks };
-
-    case "CLEAR_TODOS_DATA":
+const slice = createSlice({
+  name: "tasks",
+  initialState: initialTasksState,
+  reducers: {
+    removeTaskAC(
+      state,
+      action: PayloadAction<{ todoListId: string; taskId: string }>
+    ) {
+      const tasks = state[action.payload.todoListId];
+      const index = tasks.findIndex((t) => t.id === action.payload.taskId);
+      if (index !== -1) {
+        tasks.splice(index, 1);
+      }
+    },
+    addTaskAC(state, action: PayloadAction<TaskType>) {
+      const tasks = state[action.payload.todoListId];
+      tasks.unshift(action.payload);
+    },
+    updateTaskAC(
+      state,
+      action: PayloadAction<{
+        todoListId: string;
+        taskId: string;
+        model: UpdateDomainTaskModelType;
+      }>
+    ) {
+      const tasks = state[action.payload.todoListId];
+      const index = tasks.findIndex((t) => t.id === action.payload.taskId);
+      if (index !== -1) {
+        tasks[index] = { ...tasks[index], ...action.payload.model };
+      }
+    },
+    setTasksAC(
+      state,
+      action: PayloadAction<{ todoListId: string; tasks: Array<TaskType> }>
+    ) {
+      state[action.payload.todoListId] = action.payload.tasks;
+    },
+    clearTodosDataAC() {
       return {};
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(addTodoListAC, (state, action) => {
+      state[action.payload.id] = [];
+    });
+    builder.addCase(removeTodoListAC, (state, action) => {
+      delete state[action.payload];
+    });
+    builder.addCase(setTodoListAC, (state, action) => {
+      action.payload.forEach((tl) => (state[tl.id] = []));
+    });
+    builder.addCase(clearTodosDataAC, ({}) => {
+      return {};
+    });
+  },
+});
 
-    default:
-      return state;
-  }
-};
-
-//actions
-export const removeTaskAC = (todoListId: string, taskId: string) =>
-  ({ type: "REMOVE_TASK", todoListId, taskId } as const);
-
-export const addTaskAC = (task: TaskType) =>
-  ({ type: "ADD_TASK", task } as const);
-
-export const updateTaskAC = (
-  todoListId: string,
-  taskId: string,
-  model: UpdateDomainTaskModelType
-) =>
-  ({
-    type: "UPDATE_TASK",
-    todoListId,
-    taskId,
-    model,
-  } as const);
-
-export const setTasksAC = (todoListId: string, tasks: Array<TaskType>) =>
-  ({
-    type: "SET_TASKS",
-    todoListId,
-    tasks,
-  } as const);
+export const tasksReducer = slice.reducer;
+export const { removeTaskAC, addTaskAC, updateTaskAC, setTasksAC } =
+  slice.actions;
 
 // thunks
 export const fetchTasksTC =
@@ -117,7 +93,7 @@ export const fetchTasksTC =
       dispatch(setAppStatusAC("loading"));
       const res = await tasksAPI.getTasks(todoListId);
       if (res.data.items) {
-        dispatch(setTasksAC(todoListId, res.data.items));
+        dispatch(setTasksAC({ todoListId, tasks: res.data.items }));
         dispatch(setAppStatusAC("succeeded"));
       } else {
         handleServiceAppError(res.data.items, dispatch);
@@ -153,7 +129,7 @@ export const removeTaskTC =
       dispatch(setAppStatusAC("loading"));
       const res = await tasksAPI.deleteTask(todoListId, taskId);
       if (res.data) {
-        dispatch(removeTaskAC(todoListId, taskId));
+        dispatch(removeTaskAC({ todoListId, taskId }));
         dispatch(setAppStatusAC("succeeded"));
       } else {
         handleServiceAppError(res.data, dispatch);
@@ -187,7 +163,7 @@ export const updateTaskTC =
       };
       const res = await tasksAPI.updateTask(todoListId, taskId, apiModel);
       if (res.data.resultCode === 0) {
-        dispatch(updateTaskAC(todoListId, taskId, domainModel));
+        dispatch(updateTaskAC({ todoListId, taskId, model: domainModel }));
         dispatch(setAppStatusAC("succeeded"));
       } else {
         handleServiceAppError(res.data, dispatch);

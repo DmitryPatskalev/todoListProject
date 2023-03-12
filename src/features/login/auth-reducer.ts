@@ -1,4 +1,3 @@
-import React from "react";
 import { AppThunk } from "../../app/store";
 import { setAppStatusAC } from "../../app/app-reducer";
 import { authAPI, LoginParamsType } from "../../api/todolist-api";
@@ -7,39 +6,24 @@ import {
   handleServiceAppError,
 } from "../../utils/error-utils";
 import { clearTodosDataAC } from "../../state/todolist_reducer/todolists-reducer";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export const authInitialState = {
   isLoggedIn: false,
 };
-type InitialStateType = typeof authInitialState;
 
-export const authReducer = (
-  state: InitialStateType = authInitialState,
-  action: AuthActionsType
-): InitialStateType => {
-  switch (action.type) {
-    case "login/SET_IS_LOGGED_IN":
-      return { ...state, isLoggedIn: action.isLoggedIn };
+const slice = createSlice({
+  name: "auth",
+  initialState: authInitialState,
+  reducers: {
+    setIsLoggedInAC(state, action: PayloadAction<boolean>) {
+      state.isLoggedIn = action.payload;
+    },
+  },
+});
 
-    case "login/SET_LOG_OUT":
-      return { ...state, isLoggedIn: action.logOut };
-    default:
-      return state;
-  }
-};
-
-export type AuthActionsType =
-  | ReturnType<typeof setIsLoggedInAC>
-  | ReturnType<typeof setLogOutAC>;
-
-export const setIsLoggedInAC = (isLoggedIn: boolean) =>
-  ({ type: "login/SET_IS_LOGGED_IN", isLoggedIn } as const);
-
-export const setLogOutAC = (logOut: boolean) =>
-  ({
-    type: "login/SET_LOG_OUT",
-    logOut,
-  } as const);
+export const authReducer = slice.reducer;
+export const { setIsLoggedInAC } = slice.actions;
 
 export const loginTC =
   (data: LoginParamsType): AppThunk =>
@@ -69,3 +53,5 @@ export const logOutTC = (): AppThunk => async (dispatch) => {
     handleNetworkServerError(error, dispatch);
   }
 };
+
+export type AuthActionsType = ReturnType<typeof setIsLoggedInAC>;
