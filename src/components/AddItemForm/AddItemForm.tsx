@@ -14,7 +14,7 @@ export const AddItemForm: React.FC<AddItemFormType> = React.memo(
     const [error, setError] = useState<null | string>(null);
     const [newTaskTitle, setNewTaskTitle] = useState<string>("");
 
-    const onChangeHundler = (event: ChangeEvent<HTMLInputElement>) => {
+    const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
       setNewTaskTitle(event.currentTarget.value);
     };
 
@@ -43,7 +43,7 @@ export const AddItemForm: React.FC<AddItemFormType> = React.memo(
           label={"New title"}
           value={newTaskTitle}
           helperText={error}
-          onChange={onChangeHundler}
+          onChange={onChangeHandler}
           onKeyPress={onKeyPressHundler}
         />
         <IconButton color={"primary"} onClick={addNewItem} disabled={disabled}>

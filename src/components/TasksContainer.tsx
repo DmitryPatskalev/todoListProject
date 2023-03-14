@@ -34,7 +34,7 @@ export const TasksContainer: React.FC<TasksContainerType> = ({
   );
 
   const removeTask = useCallback((todolistId: string, taskId: string) => {
-    dispatch(removeTaskTC(todolistId, taskId));
+    dispatch(removeTaskTC({ todoListId: todolistId, taskId: taskId }));
   }, []);
 
   let taskForTodolist = tasks;

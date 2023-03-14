@@ -24,7 +24,6 @@ import {
 import {
   addTaskAC,
   initialTasksState,
-  removeTaskAC,
   tasksReducer,
   updateTaskAC,
 } from "../state/task_reducer/tasks-reducer";
@@ -73,9 +72,9 @@ function AppWithReducers() {
 
   //tasks
 
-  const removeTask = (todoListId: string, taskId: string) => {
-    dispatchToTasks(removeTaskAC({ todoListId, taskId }));
-  };
+  // const removeTask = (todoListId: string, taskId: string) => {
+  //   dispatchToTasks(removeTaskTC.fulfilled({ todoListId, taskId }));
+  // };
 
   const addTask = (todoListId: string, title: string) => {
     dispatchToTasks(

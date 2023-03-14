@@ -10,7 +10,7 @@ import {
 import thunk, { ThunkAction } from "redux-thunk";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { appReducer, AppReducerActionsType } from "./app-reducer";
-import { AuthActionsType, authReducer } from "../features/login/auth-reducer";
+import { authReducer } from "../features/login/auth-reducer";
 import { configureStore } from "@reduxjs/toolkit";
 
 export const rootReducer = combineReducers({
@@ -29,8 +29,7 @@ export const store = configureStore({
 export type AppActionsType =
   | TodoListActionsType
   | TasksActionType
-  | AppReducerActionsType
-  | AuthActionsType;
+  | AppReducerActionsType;
 
 export type AppRootStateType = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
