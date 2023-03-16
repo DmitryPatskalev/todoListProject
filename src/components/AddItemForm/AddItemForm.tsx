@@ -27,7 +27,7 @@ export const AddItemForm: React.FC<AddItemFormType> = React.memo(
       }
     };
 
-    const onKeyPressHundler = (event: KeyboardEvent<HTMLInputElement>) => {
+    const onKeyPressHandler = (event: KeyboardEvent<HTMLInputElement>) => {
       if (error !== null) {
         setError(null);
       }
@@ -44,7 +44,7 @@ export const AddItemForm: React.FC<AddItemFormType> = React.memo(
           value={newTaskTitle}
           helperText={error}
           onChange={onChangeHandler}
-          onKeyPress={onKeyPressHundler}
+          onKeyPress={onKeyPressHandler}
         />
         <IconButton color={"primary"} onClick={addNewItem} disabled={disabled}>
           <AddBox />

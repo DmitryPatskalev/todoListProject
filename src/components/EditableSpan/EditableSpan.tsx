@@ -23,7 +23,7 @@ export const EditableSpan: React.FC<EditableSpanType> = React.memo(
       onChange(newValue);
     };
 
-    const onChangeHundler = (e: ChangeEvent<HTMLInputElement>) => {
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
       setNewValue(e.currentTarget.value);
     };
 
@@ -32,7 +32,7 @@ export const EditableSpan: React.FC<EditableSpanType> = React.memo(
         {edit ? (
           <TextField
             value={newValue}
-            onChange={onChangeHundler}
+            onChange={onChangeHandler}
             onBlur={activateViewMode}
             autoFocus
             type="text"

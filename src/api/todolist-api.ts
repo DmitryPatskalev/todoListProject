@@ -21,9 +21,9 @@ export const todoListAPI = {
   deleteTodoList(todolistId: string) {
     return instance.delete<ResponceTodolistType>(`/todo-lists/${todolistId}`);
   },
-  updateTodoList(todolistId: string, title: string) {
+  updateTodoList(todoListId: string, title: string) {
     return instance.put<ResponceTodolistType<{ title: string }>>(
-      `/todo-lists/${todolistId}`,
+      `/todo-lists/${todoListId}`,
       { title }
     );
   },

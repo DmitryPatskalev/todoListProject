@@ -1,15 +1,16 @@
 import { v1 } from "uuid";
 import {
-  addTodoListAC,
+  addTodoListTC,
   changeTodolistEntityStatusAC,
   changeTodoListFilterAC,
-  changeTodoListTitleAC,
-  removeTodoListAC,
-  setTodoListAC,
+  changeTodoListTitleTC,
+  fetchTodoListsTC,
+  removeTodolistTC,
   TodoListDomainType,
   todolistsReducer,
 } from "./todolists-reducer";
 import { RequestStatusType } from "../../app/app-reducer";
+import { TodoListType } from "../../api/todolist-api";
 
 const todoListId1 = v1();
 const todoListId2 = v1();
@@ -38,14 +39,15 @@ beforeEach(() => {
 
 test("todolist should be added", () => {
   const newTitle = "new todolist";
+  const todoList: TodoListType = {
+    id: v1(),
+    title: newTitle,
+    addedDate: "",
+    order: 0,
+  };
   const endState = todolistsReducer(
     startState,
-    addTodoListAC({
-      id: v1(),
-      title: newTitle,
-      addedDate: "",
-      order: 0,
-    })
+    addTodoListTC.fulfilled(todoList, "", todoList.title)
   );
 
   expect(endState.length).toBe(3);
@@ -54,7 +56,10 @@ test("todolist should be added", () => {
 });
 
 test("correct todolist should be removed", () => {
-  const endState = todolistsReducer(startState, removeTodoListAC(todoListId1));
+  const endState = todolistsReducer(
+    startState,
+    removeTodolistTC.fulfilled(todoListId1, "", todoListId1)
+  );
 
   expect(endState.length).toBe(1);
   expect(endState[0].title).toBe("What You learn");
@@ -75,9 +80,13 @@ test("filter in correct todolist should be changed", () => {
 
 test("todolist title should be changed", () => {
   const newTitle = "AweSome";
+  const payload = {
+    todoListId: todoListId2,
+    title: newTitle,
+  };
   const endState = todolistsReducer(
     startState,
-    changeTodoListTitleAC({ todoListId: todoListId2, title: newTitle })
+    changeTodoListTitleTC.fulfilled(payload, "", payload)
   );
 
   expect(endState[1].title).toBe(newTitle);
@@ -85,7 +94,7 @@ test("todolist title should be changed", () => {
 });
 
 test("todolist should be set to state", () => {
-  const action = setTodoListAC(startState);
+  const action = fetchTodoListsTC.fulfilled(startState, "");
   const endState = todolistsReducer([], action);
 
   expect(endState.length).toBe(2);

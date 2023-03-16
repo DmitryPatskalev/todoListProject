@@ -20,15 +20,23 @@ export const TasksContainer: React.FC<TasksContainerType> = ({
   const dispatch = useAppDispatch();
 
   const changeTaskStatus = useCallback(
-    (todolistId: string, taskId: string, status: TaskStatuses) => {
-      dispatch(updateTaskTC(todolistId, taskId, { status }));
+    (todoListId: string, taskId: string, status: TaskStatuses) => {
+      dispatch(
+        updateTaskTC({
+          todoListId,
+          taskId,
+          domainModel: {
+            status,
+          },
+        })
+      );
     },
     []
   );
 
   const changeTaskTitle = useCallback(
-    (todolistId: string, taskId: string, title: string) => {
-      dispatch(updateTaskTC(todolistId, taskId, { title }));
+    (todoListId: string, taskId: string, title: string) => {
+      dispatch(updateTaskTC({ todoListId, taskId, domainModel: { title } }));
     },
     []
   );

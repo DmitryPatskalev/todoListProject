@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from "../app/store";
 import {
   addTodoListTC,
   changeTodoListTitleTC,
-  deleteTodolistTC,
+  removeTodolistTC,
   fetchTodoListsTC,
 } from "../state/todolist_reducer/todolists-reducer";
 import "./../app/App.css";
@@ -31,16 +31,16 @@ export const TodoListContainer: React.FC<PropsType> = React.memo(({ demo }) => {
   }, []);
 
   const addTask = useCallback((todolistId: string, title: string) => {
-    dispatch(addTaskTC(todolistId, title));
+    dispatch(addTaskTC({ todoListId: todolistId, title: title }));
   }, []);
 
   const removeTodolist = useCallback((todolistId: string) => {
-    dispatch(deleteTodolistTC(todolistId));
+    dispatch(removeTodolistTC(todolistId));
   }, []);
 
   const changeTodolistTitle = useCallback(
     (todoListId: string, title: string) => {
-      dispatch(changeTodoListTitleTC(todoListId, title));
+      dispatch(changeTodoListTitleTC({ todoListId, title }));
     },
     []
   );
