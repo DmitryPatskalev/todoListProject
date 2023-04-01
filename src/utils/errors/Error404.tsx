@@ -1,5 +1,5 @@
 import React from "react";
-import error404 from "./400.svg";
+import error404 from "utils/img/400.svg";
 
 export const Error404 = () => {
   return (

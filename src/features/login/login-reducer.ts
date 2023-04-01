@@ -1,20 +1,21 @@
-import { setAppStatusAC } from "../../app/app-reducer";
-import { authAPI, LoginParamsType } from "../../api/todolist-api";
+import { appActions } from "app/app-reducer";
+import { authAPI } from "api/todolist-api";
 import {
   handleNetworkServerError,
   handleServiceAppError,
-} from "../../utils/error-utils";
-import { clearTodosDataAC } from "../../state/todolist_reducer/todolists-reducer";
+} from "utils/errors/error-utils";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { todolistsActions } from "features/todolistLists/todolists-reducer";
+import { LoginParamsType } from "api/api-types";
 
 export const loginTC = createAsyncThunk(
   "name/login",
   async (data: LoginParamsType, { dispatch }) => {
-    dispatch(setAppStatusAC("loading"));
+    dispatch(appActions.setAppStatusAC("loading"));
     try {
       const res = await authAPI.login(data);
       if (res.data.resultCode === 0) {
-        dispatch(setAppStatusAC("succeeded"));
+        dispatch(appActions.setAppStatusAC("succeeded"));
         return;
       } else handleServiceAppError(res.data, dispatch);
     } catch (error: any) {
@@ -26,12 +27,12 @@ export const loginTC = createAsyncThunk(
 export const logOutTC = createAsyncThunk(
   "name/logout",
   async (arg, { dispatch }) => {
-    dispatch(setAppStatusAC("loading"));
+    dispatch(appActions.setAppStatusAC("loading"));
     try {
       const res = await authAPI.logOut();
       if (res.data.resultCode === 0) {
-        dispatch(setAppStatusAC("succeeded"));
-        dispatch(clearTodosDataAC());
+        dispatch(appActions.setAppStatusAC("succeeded"));
+        dispatch(todolistsActions.clearTodosDataAC());
         return;
       } else handleServiceAppError(res.data, dispatch);
     } catch (error: any) {
@@ -60,5 +61,5 @@ const slice = createSlice({
   },
 });
 
-export const authReducer = slice.reducer;
-export const { setIsLoggedInAC } = slice.actions;
+export const loginReducer = slice.reducer;
+export const authActions = slice.actions;

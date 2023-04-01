@@ -7,12 +7,13 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
-import { useAppDispatch, useAppSelector } from "../app/store";
-import { logOutTC } from "../features/login/auth-reducer";
+import { useAppDispatch, useAppSelector } from "app/store";
+import { logOutTC } from "features/login/login-reducer";
+import { selectIsLoggedIn } from "features/login/login-selectors";
 
 export const AppBarComponent = React.memo(() => {
   const dispatch = useAppDispatch();
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
   // console.log('AppBarComponent is called')
 
   const logOutHandler = useCallback(() => {

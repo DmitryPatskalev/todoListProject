@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "../app/App.css";
 import { v1 } from "uuid";
-import { AddItemForm } from "../components/AddItemForm/AddItemForm";
+import { AddItemForm } from "components/AddItemForm/AddItemForm";
 import {
   AppBar,
   Button,
@@ -13,12 +13,12 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
-import { TasksStateType } from "../state/task_reducer/tasks-reducer";
-import { TaskPriorities, TaskStatuses, TaskType } from "../api/todolist-api";
+import { TasksStateType } from "features/todolistLists/tasks-reducer";
 import {
   FilterValuesType,
   TodoListDomainType,
-} from "../state/todolist_reducer/todolists-reducer";
+} from "features/todolistLists/todolists-reducer";
+import { TaskPriorities, TaskStatuses, TaskType } from "api/api-types";
 
 function App() {
   const todoListId1 = v1();

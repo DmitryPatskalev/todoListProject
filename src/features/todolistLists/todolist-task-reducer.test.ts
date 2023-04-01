@@ -1,11 +1,14 @@
-import { tasksReducer, TasksStateType } from "../task_reducer/tasks-reducer";
+import {
+  tasksReducer,
+  TasksStateType,
+} from "features/todolistLists/tasks-reducer";
 import {
   addTodoListTC,
   TodoListDomainType,
   todolistsReducer,
-} from "./todolists-reducer";
+} from "features/todolistLists/todolists-reducer";
 
-import { TodoListType } from "../../api/todolist-api";
+import { TodoListType } from "api/api-types";
 
 test("it should be equals", () => {
   const startTaskState: TasksStateType = {};
@@ -18,7 +21,11 @@ test("it should be equals", () => {
     order: 0,
   };
 
-  const action = addTodoListTC.fulfilled(todoList, "title", todoList.title);
+  const action = addTodoListTC.fulfilled(
+    todoList,
+    "name/addTodoList",
+    todoList.title
+  );
 
   const endTaskState = tasksReducer(startTaskState, action);
   const endTodolistState = todolistsReducer(startTodolistState, action);

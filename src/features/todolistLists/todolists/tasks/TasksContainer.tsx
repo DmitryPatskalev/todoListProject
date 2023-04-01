@@ -1,12 +1,12 @@
 import React, { useCallback } from "react";
-import { TaskStatuses, TaskType } from "../api/todolist-api";
 import {
   removeTaskTC,
   updateTaskTC,
-} from "../state/task_reducer/tasks-reducer";
-import { useAppDispatch } from "../app/store";
-import { TodoListDomainType } from "../state/todolist_reducer/todolists-reducer";
-import { Tasks } from "../features/tasks/Tasks";
+} from "features/todolistLists/tasks-reducer";
+import { useAppDispatch } from "app/store";
+import { TodoListDomainType } from "features/todolistLists/todolists-reducer";
+import { Tasks } from "features/todolistLists/todolists/tasks/Tasks";
+import { TaskStatuses, TaskType } from "api/api-types";
 
 type TasksContainerType = {
   todoList: TodoListDomainType;

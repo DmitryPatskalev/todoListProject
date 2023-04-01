@@ -1,6 +1,6 @@
 import React, { useReducer } from "react";
 import "../app/App.css";
-import { AddItemForm } from "../components/AddItemForm/AddItemForm";
+import { AddItemForm } from "components/AddItemForm/AddItemForm";
 import {
   AppBar,
   Button,
@@ -14,21 +14,21 @@ import {
 import { Menu } from "@material-ui/icons";
 import {
   addTodoListTC,
-  changeTodoListFilterAC,
   changeTodoListTitleTC,
   FilterValuesType,
   initialTodolistState,
   removeTodolistTC,
+  todolistsActions,
   todolistsReducer,
-} from "../state/todolist_reducer/todolists-reducer";
+} from "features/todolistLists/todolists-reducer";
 import {
   addTaskTC,
   initialTasksState,
   removeTaskTC,
   tasksReducer,
   updateTaskTC,
-} from "../state/task_reducer/tasks-reducer";
-import { TaskPriorities, TaskStatuses } from "../api/todolist-api";
+} from "features/todolistLists/tasks-reducer";
+import { TaskPriorities, TaskStatuses } from "api/api-types";
 
 function AppWithReducers() {
   const [todoLists, dispatchToTodolist] = useReducer(
@@ -66,7 +66,9 @@ function AppWithReducers() {
   };
 
   const changeFilterTask = (todoListId: string, value: FilterValuesType) => {
-    dispatchToTodolist(changeTodoListFilterAC({ todoListId, filter: value }));
+    dispatchToTodolist(
+      todolistsActions.changeTodoListFilterAC({ todoListId, filter: value })
+    );
   };
 
   //tasks

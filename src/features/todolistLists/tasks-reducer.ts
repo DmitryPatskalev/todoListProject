@@ -1,21 +1,18 @@
 import {
   addTodoListTC,
-  clearTodosDataAC,
   fetchTodoListsTC,
   removeTodolistTC,
-} from "../todolist_reducer/todolists-reducer";
-import {
-  tasksAPI,
-  TaskType,
-  UpdateTaskModelType,
-} from "../../api/todolist-api";
-import { AppRootStateType } from "../../app/store";
-import { setAppStatusAC } from "../../app/app-reducer";
+  todolistsActions,
+} from "features/todolistLists/todolists-reducer";
+import { tasksAPI } from "api/todolist-api";
+import { AppRootStateType } from "app/store";
+import { appActions } from "app/app-reducer";
 import {
   handleNetworkServerError,
   handleServiceAppError,
-} from "../../utils/error-utils";
+} from "utils/errors/error-utils";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { TaskType, UpdateDomainTaskModelType } from "api/api-types";
 
 export type TasksStateType = {
   [key: string]: Array<TaskType>;
@@ -27,10 +24,10 @@ export const fetchTasksTC = createAsyncThunk(
   "name/fetchTasks",
   async (todoListId: string, { dispatch }) => {
     try {
-      dispatch(setAppStatusAC("loading"));
+      dispatch(appActions.setAppStatusAC("loading"));
       const res = await tasksAPI.getTasks(todoListId);
       const tasks = res.data.items;
-      dispatch(setAppStatusAC("succeeded"));
+      dispatch(appActions.setAppStatusAC("succeeded"));
       return { todoListId, tasks };
     } catch (error: any) {
       handleNetworkServerError(error, dispatch);
@@ -42,10 +39,10 @@ export const removeTaskTC = createAsyncThunk(
   "name/removeTask",
   async (param: { todoListId: string; taskId: string }, { dispatch }) => {
     try {
-      dispatch(setAppStatusAC("loading"));
+      dispatch(appActions.setAppStatusAC("loading"));
       const res = await tasksAPI.deleteTask(param.todoListId, param.taskId);
       if (res.data) {
-        dispatch(setAppStatusAC("succeeded"));
+        dispatch(appActions.setAppStatusAC("succeeded"));
         return { todoListId: param.todoListId, taskId: param.taskId };
       } else {
         handleServiceAppError(res.data, dispatch);
@@ -59,10 +56,10 @@ export const addTaskTC = createAsyncThunk(
   "name/addTask",
   async (param: { todoListId: string; title: string }, { dispatch }) => {
     try {
-      dispatch(setAppStatusAC("loading"));
+      dispatch(appActions.setAppStatusAC("loading"));
       const res = await tasksAPI.createTask(param.todoListId, param.title);
       if (res.data.resultCode === 0) {
-        dispatch(setAppStatusAC("succeeded"));
+        dispatch(appActions.setAppStatusAC("succeeded"));
         return res.data.data.item;
       } else {
         handleServiceAppError(res.data, dispatch);
@@ -75,7 +72,7 @@ export const addTaskTC = createAsyncThunk(
 );
 
 export const updateTaskTC = createAsyncThunk(
-  "name:updateTask",
+  "name/updateTask",
   async (
     param: {
       todoListId: string;
@@ -89,11 +86,11 @@ export const updateTaskTC = createAsyncThunk(
       (t) => t.id === param.taskId
     );
     try {
-      dispatch(setAppStatusAC("loading"));
+      dispatch(appActions.setAppStatusAC("loading"));
       if (!task) {
         return;
       }
-      const apiModel: UpdateTaskModelType = {
+      const apiModel: UpdateDomainTaskModelType = {
         title: task.title,
         description: task.description,
         status: task.status,
@@ -109,7 +106,7 @@ export const updateTaskTC = createAsyncThunk(
         apiModel
       );
       if (res.data.resultCode === 0) {
-        dispatch(setAppStatusAC("succeeded"));
+        dispatch(appActions.setAppStatusAC("succeeded"));
       } else {
         handleServiceAppError(res.data, dispatch);
       }
@@ -123,11 +120,7 @@ export const updateTaskTC = createAsyncThunk(
 const slice = createSlice({
   name: "tasks",
   initialState: initialTasksState,
-  reducers: {
-    clearTodosDataAC() {
-      return {};
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder.addCase(addTodoListTC.fulfilled, (state, action) => {
       if (action.payload) {
@@ -144,7 +137,7 @@ const slice = createSlice({
         action.payload.forEach((tl) => (state[tl.id] = []));
       }
     });
-    builder.addCase(clearTodosDataAC, ({}) => {
+    builder.addCase(todolistsActions.clearTodosDataAC, ({}) => {
       return {};
     });
     builder.addCase(fetchTasksTC.fulfilled, (state, action) => {
@@ -180,12 +173,3 @@ const slice = createSlice({
 });
 
 export const tasksReducer = slice.reducer;
-
-export type UpdateDomainTaskModelType = {
-  title?: string;
-  description?: string;
-  status?: number;
-  priority?: number;
-  startDate?: string;
-  deadline?: string;
-};

@@ -5,15 +5,15 @@ import {
   tasksReducer,
   TasksStateType,
   updateTaskTC,
-} from "./tasks-reducer";
+} from "features/todolistLists/tasks-reducer";
 
 import { v1 } from "uuid";
 import {
   addTodoListTC,
   fetchTodoListsTC,
   removeTodolistTC,
-} from "../todolist_reducer/todolists-reducer";
-import { TaskPriorities, TaskStatuses } from "../../api/todolist-api";
+} from "features/todolistLists/todolists-reducer";
+import { TaskPriorities, TaskStatuses } from "api/api-types";
 
 const todoListId1 = v1();
 const todoListId2 = v1();
@@ -164,7 +164,7 @@ test("status in correct task should be changed", () => {
       status: TaskStatuses.Completed,
     },
   };
-  const action = updateTaskTC.fulfilled(params, "", params);
+  const action = updateTaskTC.fulfilled(params, "name/updateTask", params);
   const endState = tasksReducer(startState, action);
 
   expect(endState[todoListId1][0].id).toBe("1");
@@ -180,7 +180,7 @@ test("title in correct task should be changed", () => {
       title: title,
     },
   };
-  const action = updateTaskTC.fulfilled(params, "", params);
+  const action = updateTaskTC.fulfilled(params, "name/updateTask", params);
   const endState = tasksReducer(startState, action);
 
   expect(endState[todoListId2][2].title).toBe(title);
@@ -199,7 +199,7 @@ test("new array should be added when new todolist is added", () => {
 
   const action = addTodoListTC.fulfilled(
     payload.todoList,
-    "",
+    "name/addTodoList",
     payload.todoList.title
   );
   const endState = tasksReducer(startState, action);
@@ -214,7 +214,11 @@ test("new array should be added when new todolist is added", () => {
 });
 
 test("property with todolistId should be deleted", () => {
-  const action = removeTodolistTC.fulfilled(todoListId2, "", todoListId2);
+  const action = removeTodolistTC.fulfilled(
+    todoListId2,
+    "name/removeTodolist",
+    todoListId2
+  );
   const endState = tasksReducer(startState, action);
 
   const keys = Object.keys(endState);
@@ -228,7 +232,11 @@ test("empty array should be added when set todolist", () => {
     { id: "1", title: "What I learn", order: 0, addedDate: "" },
     { id: "2", title: "What You learn", order: 0, addedDate: "" },
   ];
-  const action = fetchTodoListsTC.fulfilled(initialState, "", undefined);
+  const action = fetchTodoListsTC.fulfilled(
+    initialState,
+    "name/fetchTodoLists",
+    undefined
+  );
 
   const endState = tasksReducer({}, action);
   const keys = Object.keys(endState);

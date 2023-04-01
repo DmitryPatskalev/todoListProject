@@ -1,11 +1,12 @@
-import { todoListAPI, TodoListType } from "../../api/todolist-api";
-import { RequestStatusType, setAppStatusAC } from "../../app/app-reducer";
+import { todoListAPI } from "api/todolist-api";
+import { appActions, RequestStatusType } from "app/app-reducer";
 import {
   handleNetworkServerError,
   handleServiceAppError,
-} from "../../utils/error-utils";
-import { fetchTasksTC } from "../task_reducer/tasks-reducer";
+} from "utils/errors/error-utils";
+import { fetchTasksTC } from "features/todolistLists/tasks-reducer";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { TodoListType } from "api/api-types";
 
 export const initialTodolistState: Array<TodoListDomainType> = [];
 
@@ -20,10 +21,10 @@ export const fetchTodoListsTC = createAsyncThunk(
   "name/fetchTodoLists",
   async (arg, { dispatch }) => {
     try {
-      dispatch(setAppStatusAC("loading"));
+      dispatch(appActions.setAppStatusAC("loading"));
       const res = await todoListAPI.getTodoLists();
       if (res.data) {
-        dispatch(setAppStatusAC("succeeded"));
+        dispatch(appActions.setAppStatusAC("succeeded"));
         await res.data.forEach((tl) => {
           dispatch(fetchTasksTC(tl.id));
         });
@@ -42,13 +43,16 @@ export const removeTodolistTC = createAsyncThunk(
   "name/deleteTodolist",
   async (todoListId: string, { dispatch }) => {
     try {
-      dispatch(setAppStatusAC("loading"));
+      dispatch(appActions.setAppStatusAC("loading"));
       dispatch(
-        changeTodolistEntityStatusAC({ todoListId, entityStatus: "loading" })
+        todolistsActions.changeTodolistEntityStatusAC({
+          todoListId,
+          entityStatus: "loading",
+        })
       );
       const res = await todoListAPI.deleteTodoList(todoListId);
       if (res.data.resultCode === 0) {
-        dispatch(setAppStatusAC("succeeded"));
+        dispatch(appActions.setAppStatusAC("succeeded"));
         return todoListId;
       } else {
         handleServiceAppError(res.data, dispatch);
@@ -63,10 +67,10 @@ export const addTodoListTC = createAsyncThunk(
   "name/addTodoList",
   async (title: string, { dispatch }) => {
     try {
-      dispatch(setAppStatusAC("loading"));
+      dispatch(appActions.setAppStatusAC("loading"));
       const res = await todoListAPI.createTodoList(title);
       if (res.data.resultCode === 0) {
-        dispatch(setAppStatusAC("succeeded"));
+        dispatch(appActions.setAppStatusAC("succeeded"));
         return res.data.data.item;
       } else {
         handleServiceAppError(res.data, dispatch);
@@ -81,13 +85,13 @@ export const changeTodoListTitleTC = createAsyncThunk(
   "name/changeTodoListTitle",
   async (param: { todoListId: string; title: string }, { dispatch }) => {
     try {
-      dispatch(setAppStatusAC("loading"));
+      dispatch(appActions.setAppStatusAC("loading"));
       const res = await todoListAPI.updateTodoList(
         param.todoListId,
         param.title
       );
       if (res.data.resultCode === 0) {
-        dispatch(setAppStatusAC("succeeded"));
+        dispatch(appActions.setAppStatusAC("succeeded"));
         return { todoListId: param.todoListId, title: param.title };
       } else {
         handleServiceAppError(res.data, dispatch);
@@ -142,11 +146,9 @@ const slice = createSlice({
       }
     });
     builder.addCase(removeTodolistTC.fulfilled, (state, action) => {
-      if (action.payload) {
-        const index = state.findIndex((tl) => tl.id === action.payload);
-        if (index !== -1) {
-          state.splice(index, 1);
-        }
+      const index = state.findIndex((tl) => tl.id === action.payload);
+      if (index !== -1) {
+        state.splice(index, 1);
       }
     });
     builder.addCase(addTodoListTC.fulfilled, (state, action) => {
@@ -172,8 +174,4 @@ const slice = createSlice({
 });
 
 export const todolistsReducer = slice.reducer;
-export const {
-  changeTodoListFilterAC,
-  changeTodolistEntityStatusAC,
-  clearTodosDataAC,
-} = slice.actions;
+export const todolistsActions = slice.actions;

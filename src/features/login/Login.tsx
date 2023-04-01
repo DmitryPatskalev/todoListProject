@@ -9,13 +9,14 @@ import Button from "@mui/material/Button";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import s from "./Login.module.css";
-import { useAppDispatch, useAppSelector } from "../../app/store";
-import { loginTC } from "./auth-reducer";
+import { useAppDispatch, useAppSelector } from "app/store";
+import { loginTC } from "features/login/login-reducer";
 import { Navigate } from "react-router-dom";
+import { selectIsLoggedIn } from "features/login/login-selectors";
 
 export const Login = () => {
   const dispatch = useAppDispatch();
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   if (isLoggedIn) {
     return <Navigate to={"/"} />;

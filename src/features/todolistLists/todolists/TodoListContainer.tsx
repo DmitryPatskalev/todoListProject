@@ -1,27 +1,33 @@
 import React, { useCallback, useEffect } from "react";
 import { Container, Grid, LinearProgress, Paper } from "@material-ui/core";
-import { AddItemForm } from "./AddItemForm/AddItemForm";
-import { TodoList } from "../features/todolists/TodoList";
-import { useAppDispatch, useAppSelector } from "../app/store";
+import { AddItemForm } from "components/AddItemForm/AddItemForm";
+import { TodoList } from "features/todolistLists/todolists/TodoList";
+import { useAppDispatch, useAppSelector } from "app/store";
 import {
   addTodoListTC,
   changeTodoListTitleTC,
   removeTodolistTC,
   fetchTodoListsTC,
-} from "../state/todolist_reducer/todolists-reducer";
-import "./../app/App.css";
+} from "features/todolistLists/todolists-reducer";
+import "app/App.css";
 import { Navigate } from "react-router-dom";
-import { addTaskTC } from "../state/task_reducer/tasks-reducer";
+import { addTaskTC } from "features/todolistLists/tasks-reducer";
+import { selectStatus } from "app/app-selectors";
+import {
+  selectTasks,
+  selectTodolist,
+} from "features/todolistLists/todolist-tasks-selectors";
+import { selectIsLoggedIn } from "features/login/login-selectors";
 
 type PropsType = {
   demo?: boolean;
 };
 export const TodoListContainer: React.FC<PropsType> = React.memo(({ demo }) => {
   const dispatch = useAppDispatch();
-  const status = useAppSelector((state) => state.app.status);
-  const todoLists = useAppSelector((state) => state.todoLists);
-  const tasks = useAppSelector((state) => state.tasks);
-  const isLoggedIn = useAppSelector((state) => state.auth.isLoggedIn);
+  const status = useAppSelector(selectStatus);
+  const todoLists = useAppSelector(selectTodolist);
+  const tasks = useAppSelector(selectTasks);
+  const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
   useEffect(() => {
     if (demo || !isLoggedIn) {
