@@ -2,61 +2,61 @@ import React, { useCallback, useEffect } from "react";
 import { Container, Grid, LinearProgress, Paper } from "@material-ui/core";
 import { AddItemForm } from "components/AddItemForm/AddItemForm";
 import { TodoList } from "features/todolistLists/todolists/TodoList";
-import { useAppDispatch, useAppSelector } from "app/store";
-import {
-  addTodoListTC,
-  changeTodoListTitleTC,
-  removeTodolistTC,
-  fetchTodoListsTC,
-} from "features/todolistLists/todolists-reducer";
+import { useActions, useAppSelector } from "app/store";
 import "app/App.css";
 import { Navigate } from "react-router-dom";
-import { addTaskTC } from "features/todolistLists/tasks-reducer";
 import { selectStatus } from "app/app-selectors";
 import {
   selectTasks,
   selectTodolist,
 } from "features/todolistLists/todolist-tasks-selectors";
 import { selectIsLoggedIn } from "features/login/login-selectors";
+import { tasksActions, todoListActions } from "./index";
+import {
+  addTodoList,
+  changeTodoListTitle,
+  fetchTodoLists,
+  removeTodolist,
+} from "./todolist-actions";
 
 type PropsType = {
   demo?: boolean;
 };
 export const TodoListContainer: React.FC<PropsType> = React.memo(({ demo }) => {
-  const dispatch = useAppDispatch();
   const status = useAppSelector(selectStatus);
   const todoLists = useAppSelector(selectTodolist);
   const tasks = useAppSelector(selectTasks);
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
+  const { addTask } = useActions(tasksActions);
+  const { addTodoList, fetchTodoLists, changeTodoListTitle, removeTodolist } =
+    useActions(todoListActions);
+
   useEffect(() => {
     if (demo || !isLoggedIn) {
       return;
     }
-    dispatch(fetchTodoListsTC());
+    fetchTodoLists();
   }, []);
 
-  const addTask = useCallback((todolistId: string, title: string) => {
-    dispatch(addTaskTC({ todoListId: todolistId, title: title }));
+  const createTask = useCallback((todolistId: string, title: string) => {
+    addTask({ todoListId: todolistId, title: title });
   }, []);
 
-  const removeTodolist = useCallback((todolistId: string) => {
-    dispatch(removeTodolistTC(todolistId));
+  const removetodolist = useCallback((todolistId: string) => {
+    removeTodolist(todolistId);
   }, []);
 
   const changeTodolistTitle = useCallback(
     (todoListId: string, title: string) => {
-      dispatch(changeTodoListTitleTC({ todoListId, title }));
+      changeTodoListTitle({ todoListId, title });
     },
     []
   );
 
-  const addTodoList = useCallback(
-    (title: string) => {
-      dispatch(addTodoListTC(title));
-    },
-    [dispatch]
-  );
+  const addTodolist = useCallback((title: string) => {
+    addTodoList(title);
+  }, []);
 
   if (!isLoggedIn) {
     return <Navigate to={"login"} />;
@@ -67,7 +67,7 @@ export const TodoListContainer: React.FC<PropsType> = React.memo(({ demo }) => {
       {status === "loading" && <LinearProgress />}
       <Container fixed>
         <Grid container style={{ padding: "15px" }}>
-          <AddItemForm addItem={addTodoList} />
+          <AddItemForm addItem={addTodolist} />
         </Grid>
         <Grid container spacing={3}>
           {todoLists.map((tl) => {
@@ -78,8 +78,8 @@ export const TodoListContainer: React.FC<PropsType> = React.memo(({ demo }) => {
                     key={tl.id}
                     todoList={tl}
                     tasks={tasks[tl.id]}
-                    addTask={addTask}
-                    removeTodolist={removeTodolist}
+                    addTask={createTask}
+                    removeTodolist={removetodolist}
                     changeTodolistTitle={changeTodolistTitle}
                     demo={demo}
                   />

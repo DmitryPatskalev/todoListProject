@@ -13,22 +13,26 @@ import {
 } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
 import {
-  addTodoListTC,
-  changeTodoListTitleTC,
   FilterValuesType,
   initialTodolistState,
-  removeTodolistTC,
   todolistsActions,
   todolistsReducer,
 } from "features/todolistLists/todolists-reducer";
 import {
-  addTaskTC,
   initialTasksState,
-  removeTaskTC,
   tasksReducer,
-  updateTaskTC,
 } from "features/todolistLists/tasks-reducer";
 import { TaskPriorities, TaskStatuses } from "api/api-types";
+import {
+  addTask,
+  removeTask,
+  updateTask,
+} from "../features/todolistLists/todolists/tasks/tasks-actions";
+import {
+  addTodoList,
+  changeTodoListTitle,
+  removeTodolist,
+} from "../features/todolistLists/todolists/todolist-actions";
 
 function AppWithReducers() {
   const [todoLists, dispatchToTodolist] = useReducer(
@@ -38,27 +42,25 @@ function AppWithReducers() {
   const [tasks, dispatchToTasks] = useReducer(tasksReducer, initialTasksState);
 
   //todolists
-  const removeTodolist = (todoListId: string) => {
+  const removeTodoList = (todoListId: string) => {
     dispatchToTodolist(
-      removeTodolistTC.fulfilled(todoListId, "todoListId", todoListId)
+      removeTodolist.fulfilled(todoListId, "todoListId", todoListId)
     );
   };
 
-  const addTodoList = (title: string) => {
+  const addTodolist = (title: string) => {
     const payload = {
       id: "111",
       title: title,
       addedDate: "",
       order: 0,
     };
-    dispatchToTodolist(
-      addTodoListTC.fulfilled(payload, "title", payload.title)
-    );
+    dispatchToTodolist(addTodoList.fulfilled(payload, "title", payload.title));
   };
 
-  const changeTodoListTitle = (todoListId: string, title: string) => {
+  const changeTodolistTitle = (todoListId: string, title: string) => {
     dispatchToTodolist(
-      changeTodoListTitleTC.fulfilled({ todoListId: todoListId, title }, "", {
+      changeTodoListTitle.fulfilled({ todoListId: todoListId, title }, "", {
         todoListId: todoListId,
         title,
       })
@@ -73,13 +75,13 @@ function AppWithReducers() {
 
   //tasks
 
-  const removeTask = (todoListId: string, taskId: string) => {
+  const deleteTask = (todoListId: string, taskId: string) => {
     dispatchToTasks(
-      removeTaskTC.fulfilled({ todoListId, taskId }, "", { todoListId, taskId })
+      removeTask.fulfilled({ todoListId, taskId }, "", { todoListId, taskId })
     );
   };
 
-  const addTask = (todoListId: string, title: string) => {
+  const createTask = (todoListId: string, title: string) => {
     const params = {
       todoListId: todoListId,
       title: title,
@@ -92,7 +94,7 @@ function AppWithReducers() {
       priority: TaskPriorities.Low,
       id: "4",
     };
-    dispatchToTasks(addTaskTC.fulfilled(params, "params", params));
+    dispatchToTasks(addTask.fulfilled(params, "params", params));
   };
 
   const changeTaskStatus = (
@@ -107,7 +109,7 @@ function AppWithReducers() {
         status,
       },
     };
-    dispatchToTasks(updateTaskTC.fulfilled(params, "params", params));
+    dispatchToTasks(updateTask.fulfilled(params, "params", params));
   };
 
   const changeTaskTitle = (
@@ -122,7 +124,7 @@ function AppWithReducers() {
         title,
       },
     };
-    dispatchToTasks(updateTaskTC.fulfilled(params, "params", params));
+    dispatchToTasks(updateTask.fulfilled(params, "params", params));
   };
 
   return (

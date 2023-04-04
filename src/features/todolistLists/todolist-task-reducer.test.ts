@@ -3,12 +3,12 @@ import {
   TasksStateType,
 } from "features/todolistLists/tasks-reducer";
 import {
-  addTodoListTC,
   TodoListDomainType,
   todolistsReducer,
 } from "features/todolistLists/todolists-reducer";
 
 import { TodoListType } from "api/api-types";
+import { addTodoList } from "./todolists/todolist-actions";
 
 test("it should be equals", () => {
   const startTaskState: TasksStateType = {};
@@ -21,7 +21,7 @@ test("it should be equals", () => {
     order: 0,
   };
 
-  const action = addTodoListTC.fulfilled(
+  const action = addTodoList.fulfilled(
     todoList,
     "name/addTodoList",
     todoList.title

@@ -1,12 +1,10 @@
 import React, { useCallback } from "react";
-import {
-  removeTaskTC,
-  updateTaskTC,
-} from "features/todolistLists/tasks-reducer";
-import { useAppDispatch } from "app/store";
+import { useActions } from "app/store";
 import { TodoListDomainType } from "features/todolistLists/todolists-reducer";
 import { Tasks } from "features/todolistLists/todolists/tasks/Tasks";
 import { TaskStatuses, TaskType } from "api/api-types";
+import { removeTask, updateTask } from "./tasks-actions";
+import { tasksActions } from "./index";
 
 type TasksContainerType = {
   todoList: TodoListDomainType;
@@ -17,32 +15,30 @@ export const TasksContainer: React.FC<TasksContainerType> = ({
   todoList,
   tasks,
 }) => {
-  const dispatch = useAppDispatch();
+  const { removeTask, updateTask } = useActions(tasksActions);
 
   const changeTaskStatus = useCallback(
     (todoListId: string, taskId: string, status: TaskStatuses) => {
-      dispatch(
-        updateTaskTC({
-          todoListId,
-          taskId,
-          domainModel: {
-            status,
-          },
-        })
-      );
+      updateTask({
+        todoListId,
+        taskId,
+        domainModel: {
+          status,
+        },
+      });
     },
     []
   );
 
   const changeTaskTitle = useCallback(
     (todoListId: string, taskId: string, title: string) => {
-      dispatch(updateTaskTC({ todoListId, taskId, domainModel: { title } }));
+      updateTask({ todoListId, taskId, domainModel: { title } });
     },
     []
   );
 
-  const removeTask = useCallback((todolistId: string, taskId: string) => {
-    dispatch(removeTaskTC({ todoListId: todolistId, taskId: taskId }));
+  const deleteTask = useCallback((todolistId: string, taskId: string) => {
+    removeTask({ todoListId: todolistId, taskId: taskId });
   }, []);
 
   let taskForTodolist = tasks;
@@ -59,7 +55,7 @@ export const TasksContainer: React.FC<TasksContainerType> = ({
           key={t.id}
           task={t}
           todoListId={todoList.id}
-          removeTask={removeTask}
+          removeTask={deleteTask}
           changeTaskTitle={changeTaskTitle}
           changeTaskStatus={changeTaskStatus}
         />
