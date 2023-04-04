@@ -1,10 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { appActions } from "../../../app/app-reducer";
-import { todoListAPI } from "../../../api/todolist-api";
+import { appActions } from "app/app-reducer";
+import { todoListAPI } from "api/todolist-api";
 import {
   handleNetworkServerError,
   handleServiceAppError,
-} from "../../../utils/errors/error-utils";
+} from "utils/errors/error-utils";
 import { fetchTasks } from "./tasks/tasks-actions";
 import { todolistsActions } from "../todolists-reducer";
 

@@ -1,28 +1,48 @@
 import React, { useCallback } from "react";
 import { Button } from "@material-ui/core";
-import { FilterValuesType } from "features/todolistLists/todolists-reducer";
+import {
+  FilterValuesType,
+  todolistsActions,
+} from "features/todolistLists/todolists-reducer";
+import { useAppDispatch } from "app/store";
 
 export type FilterChangeTasksType = {
   todoListId: string;
-  changeFilterTask: (todoListId: string, value: FilterValuesType) => void;
   filter: FilterValuesType;
 };
 
 export const ButtonFilterTasks: React.FC<FilterChangeTasksType> = React.memo(
-  ({ changeFilterTask, filter, todoListId }) => {
+  ({ todoListId, filter }) => {
     // console.log('ButtonFilterTasks is called')
 
+    const dispatch = useAppDispatch();
+
     const onAllButton = useCallback(() => {
-      changeFilterTask(todoListId, "All");
-    }, [changeFilterTask, todoListId]);
+      dispatch(
+        todolistsActions.changeTodoListFilterAC({
+          todoListId,
+          filter: "All",
+        })
+      );
+    }, [todoListId]);
 
     const onActiveButton = useCallback(() => {
-      changeFilterTask(todoListId, "Active");
-    }, [changeFilterTask, todoListId]);
+      dispatch(
+        todolistsActions.changeTodoListFilterAC({
+          todoListId,
+          filter: "Active",
+        })
+      );
+    }, [todoListId]);
 
     const onCompletedButton = useCallback(() => {
-      changeFilterTask(todoListId, "Completed");
-    }, [changeFilterTask, todoListId]);
+      dispatch(
+        todolistsActions.changeTodoListFilterAC({
+          todoListId,
+          filter: "Completed",
+        })
+      );
+    }, [todoListId]);
 
     return (
       <div>

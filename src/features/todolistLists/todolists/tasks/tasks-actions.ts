@@ -1,12 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { appActions } from "../../../../app/app-reducer";
-import { tasksAPI } from "../../../../api/todolist-api";
+import { appActions } from "app/app-reducer";
+import { tasksAPI } from "api/todolist-api";
 import {
   handleNetworkServerError,
   handleServiceAppError,
-} from "../../../../utils/errors/error-utils";
-import { UpdateDomainTaskModelType } from "../../../../api/api-types";
-import { AppRootStateType } from "../../../../app/store";
+} from "utils/errors/error-utils";
+import { UpdateDomainTaskModelType } from "api/api-types";
+import { AppRootStateType } from "app/store";
 
 export const fetchTasks = createAsyncThunk(
   "name/fetchTasks",
