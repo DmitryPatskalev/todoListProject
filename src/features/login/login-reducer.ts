@@ -1,21 +1,19 @@
 import { appActions } from "app/app-reducer";
 import { authAPI } from "api/todolist-api";
-import {
-  handleNetworkServerError,
-  handleServiceAppError,
-} from "utils/errors/error-utils";
+import { handleNetworkServerError } from "utils/errors/handleNetworkServerError";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { todolistsActions } from "features/todolistLists/todolists-reducer";
 import { LoginParamsType } from "api/api-types";
+import { handleServiceAppError } from "../../utils/errors/handleServiceAppError";
 
 export const loginTC = createAsyncThunk(
   "name/login",
   async (data: LoginParamsType, { dispatch }) => {
-    dispatch(appActions.setAppStatusAC("loading"));
+    dispatch(appActions.setAppStatus("loading"));
     try {
       const res = await authAPI.login(data);
       if (res.data.resultCode === 0) {
-        dispatch(appActions.setAppStatusAC("succeeded"));
+        dispatch(appActions.setAppStatus("succeeded"));
         return;
       } else handleServiceAppError(res.data, dispatch);
     } catch (error: any) {
@@ -27,12 +25,12 @@ export const loginTC = createAsyncThunk(
 export const logOutTC = createAsyncThunk(
   "name/logout",
   async (arg, { dispatch }) => {
-    dispatch(appActions.setAppStatusAC("loading"));
+    dispatch(appActions.setAppStatus("loading"));
     try {
       const res = await authAPI.logOut();
       if (res.data.resultCode === 0) {
-        dispatch(appActions.setAppStatusAC("succeeded"));
-        dispatch(todolistsActions.clearTodosDataAC());
+        dispatch(appActions.setAppStatus("succeeded"));
+        dispatch(todolistsActions.clearTodosData());
         return;
       } else handleServiceAppError(res.data, dispatch);
     } catch (error: any) {
@@ -47,7 +45,7 @@ const slice = createSlice({
     isLoggedIn: false,
   },
   reducers: {
-    setIsLoggedInAC(state, action: PayloadAction<boolean>) {
+    setIsLoggedIn(state, action: PayloadAction<boolean>) {
       state.isLoggedIn = action.payload;
     },
   },

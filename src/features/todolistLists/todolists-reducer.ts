@@ -21,7 +21,7 @@ const slice = createSlice({
   name: "todolist",
   initialState: initialTodolistState,
   reducers: {
-    changeTodoListFilterAC(
+    changeTodoListFilter(
       state,
       action: PayloadAction<{ todoListId: string; filter: FilterValuesType }>
     ) {
@@ -32,7 +32,7 @@ const slice = createSlice({
         state[index].filter = action.payload.filter;
       }
     },
-    changeTodolistEntityStatusAC(
+    changeTodolistEntityStatus(
       state,
       action: PayloadAction<{
         todoListId: string;
@@ -46,7 +46,7 @@ const slice = createSlice({
         state[index].entityStatus = action.payload.entityStatus;
       }
     },
-    clearTodosDataAC() {
+    clearTodosData() {
       return [];
     },
   },

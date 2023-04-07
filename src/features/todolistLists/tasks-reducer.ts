@@ -39,7 +39,7 @@ const slice = createSlice({
         action.payload.forEach((tl) => (state[tl.id] = []));
       }
     });
-    builder.addCase(todolistsActions.clearTodosDataAC, ({}) => {
+    builder.addCase(todolistsActions.clearTodosData, ({}) => {
       return {};
     });
     builder.addCase(fetchTasks.fulfilled, (state, action) => {

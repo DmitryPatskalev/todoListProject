@@ -19,7 +19,7 @@ export const ButtonFilterTasks: React.FC<FilterChangeTasksType> = React.memo(
 
     const onAllButton = useCallback(() => {
       dispatch(
-        todolistsActions.changeTodoListFilterAC({
+        todolistsActions.changeTodoListFilter({
           todoListId,
           filter: "All",
         })
@@ -28,7 +28,7 @@ export const ButtonFilterTasks: React.FC<FilterChangeTasksType> = React.memo(
 
     const onActiveButton = useCallback(() => {
       dispatch(
-        todolistsActions.changeTodoListFilterAC({
+        todolistsActions.changeTodoListFilter({
           todoListId,
           filter: "Active",
         })
@@ -37,7 +37,7 @@ export const ButtonFilterTasks: React.FC<FilterChangeTasksType> = React.memo(
 
     const onCompletedButton = useCallback(() => {
       dispatch(
-        todolistsActions.changeTodoListFilterAC({
+        todolistsActions.changeTodoListFilter({
           todoListId,
           filter: "Completed",
         })

@@ -71,7 +71,7 @@ test("filter in correct todolist should be changed", () => {
   const newFilter = "Completed";
   const endState = todolistsReducer(
     startState,
-    todolistsActions.changeTodoListFilterAC({
+    todolistsActions.changeTodoListFilter({
       todoListId: todoListId1,
       filter: newFilter,
     })
@@ -107,7 +107,7 @@ test("todolist should be set to state", () => {
 test("correct entity status in correct todolistId should be changed", () => {
   const newStatus: RequestStatusType = "loading";
 
-  const action = todolistsActions.changeTodolistEntityStatusAC({
+  const action = todolistsActions.changeTodolistEntityStatus({
     todoListId: todoListId1,
     entityStatus: newStatus,
   });
