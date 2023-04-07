@@ -1,12 +1,7 @@
 import { RequestStatusType } from "app/app-reducer";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { TodoListType } from "api/api-types";
-import {
-  addTodoList,
-  changeTodoListTitle,
-  fetchTodoLists,
-  removeTodolist,
-} from "./todolists/todolist-actions";
+import { todoListThunk } from "./todolists/todolist-actions";
 
 export const initialTodolistState: Array<TodoListDomainType> = [];
 
@@ -51,7 +46,7 @@ const slice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchTodoLists.fulfilled, (state, action) => {
+    builder.addCase(todoListThunk.fetchTodoLists.fulfilled, (state, action) => {
       if (action.payload) {
         return action.payload.map((tl) => ({
           ...tl,
@@ -60,13 +55,13 @@ const slice = createSlice({
         }));
       }
     });
-    builder.addCase(removeTodolist.fulfilled, (state, action) => {
+    builder.addCase(todoListThunk.removeTodolist.fulfilled, (state, action) => {
       const index = state.findIndex((tl) => tl.id === action.payload);
       if (index !== -1) {
         state.splice(index, 1);
       }
     });
-    builder.addCase(addTodoList.fulfilled, (state, action) => {
+    builder.addCase(todoListThunk.addTodoList.fulfilled, (state, action) => {
       if (action.payload) {
         state.unshift({
           ...action.payload,
@@ -75,16 +70,19 @@ const slice = createSlice({
         });
       }
     });
-    builder.addCase(changeTodoListTitle.fulfilled, (state, action) => {
-      const index = state.findIndex((tl) => {
-        if (action.payload) {
-          return tl.id === action.payload.todoListId;
+    builder.addCase(
+      todoListThunk.changeTodoListTitle.fulfilled,
+      (state, action) => {
+        const index = state.findIndex((tl) => {
+          if (action.payload) {
+            return tl.id === action.payload.todoListId;
+          }
+        });
+        if (index !== -1 && action.payload) {
+          state[index].title = action.payload.title;
         }
-      });
-      if (index !== -1 && action.payload) {
-        state[index].title = action.payload.title;
       }
-    });
+    );
   },
 });
 

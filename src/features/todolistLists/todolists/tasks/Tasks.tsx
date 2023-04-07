@@ -4,7 +4,7 @@ import { Checkbox, IconButton } from "@material-ui/core";
 import { Delete } from "@material-ui/icons";
 import { TaskStatuses, TaskType } from "api/api-types";
 import { useActions } from "app/store";
-import { tasksActions } from "./index";
+import { tasksThunk } from "features/todolistLists/todolists/tasks/tasks-actions";
 
 export type TasksPropsType = {
   task: TaskType;
@@ -13,7 +13,7 @@ export type TasksPropsType = {
 
 export const Tasks: React.FC<TasksPropsType> = React.memo(
   ({ task, todoListId }) => {
-    const { updateTask, removeTask } = useActions(tasksActions);
+    const { updateTask, removeTask } = useActions(tasksThunk);
 
     // console.log('Tasks is called')
 

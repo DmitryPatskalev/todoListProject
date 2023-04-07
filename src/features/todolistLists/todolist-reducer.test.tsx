@@ -6,12 +6,7 @@ import {
 } from "features/todolistLists/todolists-reducer";
 import { RequestStatusType } from "app/app-reducer";
 import { TodoListType } from "api/api-types";
-import {
-  addTodoList,
-  changeTodoListTitle,
-  fetchTodoLists,
-  removeTodolist,
-} from "./todolists/todolist-actions";
+import { todoListThunk } from "features/todolistLists/todolists/todolist-actions";
 
 const todoListId1 = v1();
 const todoListId2 = v1();
@@ -48,7 +43,11 @@ test("todolist should be added", () => {
   };
   const endState = todolistsReducer(
     startState,
-    addTodoList.fulfilled(todoList, "name/addTodoList", todoList.title)
+    todoListThunk.addTodoList.fulfilled(
+      todoList,
+      "name/addTodoList",
+      todoList.title
+    )
   );
 
   expect(endState.length).toBe(3);
@@ -59,7 +58,11 @@ test("todolist should be added", () => {
 test("correct todolist should be removed", () => {
   const endState = todolistsReducer(
     startState,
-    removeTodolist.fulfilled(todoListId1, "name/removeTodolist", todoListId1)
+    todoListThunk.removeTodolist.fulfilled(
+      todoListId1,
+      "name/removeTodolist",
+      todoListId1
+    )
   );
 
   expect(endState.length).toBe(1);
@@ -90,7 +93,11 @@ test("todolist title should be changed", () => {
   };
   const endState = todolistsReducer(
     startState,
-    changeTodoListTitle.fulfilled(payload, "name/changeTodoListTitle", payload)
+    todoListThunk.changeTodoListTitle.fulfilled(
+      payload,
+      "name/changeTodoListTitle",
+      payload
+    )
   );
 
   expect(endState[1].title).toBe(newTitle);
@@ -98,7 +105,10 @@ test("todolist title should be changed", () => {
 });
 
 test("todolist should be set to state", () => {
-  const action = fetchTodoLists.fulfilled(startState, "name/fetchTodoLists");
+  const action = todoListThunk.fetchTodoLists.fulfilled(
+    startState,
+    "name/fetchTodoLists"
+  );
   const endState = todolistsReducer([], action);
 
   expect(endState.length).toBe(2);

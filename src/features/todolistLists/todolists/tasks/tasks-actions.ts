@@ -4,9 +4,9 @@ import { tasksAPI } from "api/todolist-api";
 import { handleNetworkServerError } from "utils/errors/handleNetworkServerError";
 import { ResultCode, UpdateDomainTaskModelType } from "api/api-types";
 import { AppRootStateType } from "app/store";
-import { handleServiceAppError } from "../../../../utils/errors/handleServiceAppError";
+import { handleServiceAppError } from "utils/errors/handleServiceAppError";
 
-export const fetchTasks = createAsyncThunk(
+const fetchTasks = createAsyncThunk(
   "tasks/fetchTasks",
   async (todoListId: string, { dispatch, rejectWithValue }) => {
     try {
@@ -15,13 +15,13 @@ export const fetchTasks = createAsyncThunk(
       const tasks = res.data.items;
       dispatch(appActions.setAppStatus("succeeded"));
       return { todoListId, tasks };
-    } catch (error: any) {
+    } catch (error) {
       handleNetworkServerError(error, dispatch);
       return rejectWithValue(error);
     }
   }
 );
-export const removeTask = createAsyncThunk(
+const removeTask = createAsyncThunk(
   "name/removeTask",
   async (param: { todoListId: string; taskId: string }, { dispatch }) => {
     try {
@@ -33,12 +33,12 @@ export const removeTask = createAsyncThunk(
       } else {
         handleServiceAppError(res.data, dispatch);
       }
-    } catch (error: any) {
+    } catch (error) {
       handleNetworkServerError(error, dispatch);
     }
   }
 );
-export const addTask = createAsyncThunk(
+const addTask = createAsyncThunk(
   "name/addTask",
   async (param: { todoListId: string; title: string }, { dispatch }) => {
     try {
@@ -50,13 +50,12 @@ export const addTask = createAsyncThunk(
       } else {
         handleServiceAppError(res.data, dispatch);
       }
-    } catch (error: any) {
-      console.log(error);
+    } catch (error) {
       handleNetworkServerError(error, dispatch);
     }
   }
 );
-export const updateTask = createAsyncThunk(
+const updateTask = createAsyncThunk(
   "name/updateTask",
   async (
     param: {
@@ -96,10 +95,10 @@ export const updateTask = createAsyncThunk(
         handleServiceAppError(res.data, dispatch);
       }
       return param;
-    } catch (error: any) {
+    } catch (error) {
       handleNetworkServerError(error, dispatch);
     }
   }
 );
 
-// export const tasksThunk = { fetchTasks };
+export const tasksThunk = { fetchTasks, removeTask, addTask, updateTask };

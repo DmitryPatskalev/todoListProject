@@ -8,7 +8,7 @@ import {
 } from "features/todolistLists/todolists-reducer";
 
 import { TodoListType } from "api/api-types";
-import { addTodoList } from "./todolists/todolist-actions";
+import { todoListThunk } from "features/todolistLists/todolists/todolist-actions";
 
 test("it should be equals", () => {
   const startTaskState: TasksStateType = {};
@@ -21,7 +21,7 @@ test("it should be equals", () => {
     order: 0,
   };
 
-  const action = addTodoList.fulfilled(
+  const action = todoListThunk.addTodoList.fulfilled(
     todoList,
     "name/addTodoList",
     todoList.title

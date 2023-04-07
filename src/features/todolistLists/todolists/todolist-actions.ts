@@ -2,12 +2,13 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import { appActions } from "app/app-reducer";
 import { todoListAPI } from "api/todolist-api";
 import { handleNetworkServerError } from "utils/errors/handleNetworkServerError";
-import { fetchTasks } from "./tasks/tasks-actions";
-import { todolistsActions } from "../todolists-reducer";
-import { ResultCode } from "../../../api/api-types";
-import { handleServiceAppError } from "../../../utils/errors/handleServiceAppError";
 
-export const fetchTodoLists = createAsyncThunk(
+import { todolistsActions } from "../todolists-reducer";
+import { ResultCode } from "api/api-types";
+import { handleServiceAppError } from "utils/errors/handleServiceAppError";
+import { tasksThunk } from "features/todolistLists/todolists/tasks/tasks-actions";
+
+const fetchTodoLists = createAsyncThunk(
   "name/fetchTodoLists",
   async (arg, { dispatch }) => {
     try {
@@ -16,19 +17,19 @@ export const fetchTodoLists = createAsyncThunk(
       if (res.data) {
         dispatch(appActions.setAppStatus("succeeded"));
         await res.data.forEach((tl) => {
-          dispatch(fetchTasks(tl.id));
+          dispatch(tasksThunk.fetchTasks(tl.id));
         });
         return res.data;
       } else {
         handleServiceAppError(res.data, dispatch);
       }
-    } catch (error: any) {
+    } catch (error) {
       console.log(error);
       handleNetworkServerError(error, dispatch);
     }
   }
 );
-export const removeTodolist = createAsyncThunk(
+const removeTodolist = createAsyncThunk(
   "name/deleteTodolist",
   async (todoListId: string, { dispatch }) => {
     try {
@@ -46,12 +47,12 @@ export const removeTodolist = createAsyncThunk(
       } else {
         handleServiceAppError(res.data, dispatch);
       }
-    } catch (error: any) {
+    } catch (error) {
       handleNetworkServerError(error, dispatch);
     }
   }
 );
-export const addTodoList = createAsyncThunk(
+const addTodoList = createAsyncThunk(
   "name/addTodoList",
   async (title: string, { dispatch }) => {
     try {
@@ -63,12 +64,12 @@ export const addTodoList = createAsyncThunk(
       } else {
         handleServiceAppError(res.data, dispatch);
       }
-    } catch (error: any) {
+    } catch (error) {
       handleNetworkServerError(error, dispatch);
     }
   }
 );
-export const changeTodoListTitle = createAsyncThunk(
+const changeTodoListTitle = createAsyncThunk(
   "name/changeTodoListTitle",
   async (param: { todoListId: string; title: string }, { dispatch }) => {
     try {
@@ -83,8 +84,15 @@ export const changeTodoListTitle = createAsyncThunk(
       } else {
         handleServiceAppError(res.data, dispatch);
       }
-    } catch (error: any) {
+    } catch (error) {
       handleNetworkServerError(error, dispatch);
     }
   }
 );
+
+export const todoListThunk = {
+  fetchTodoLists,
+  removeTodolist,
+  addTodoList,
+  changeTodoListTitle,
+};

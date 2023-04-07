@@ -8,8 +8,9 @@ import {
 } from "@material-ui/core";
 import { Menu } from "@material-ui/icons";
 import { useAppDispatch, useAppSelector } from "app/store";
-import { logOutTC } from "features/login/login-reducer";
+
 import { selectIsLoggedIn } from "features/login/login-selectors";
+import { loginThunks } from "features/login/login-reducer";
 
 export const AppBarComponent = React.memo(() => {
   const dispatch = useAppDispatch();
@@ -17,7 +18,7 @@ export const AppBarComponent = React.memo(() => {
   // console.log('AppBarComponent is called')
 
   const logOutHandler = useCallback(() => {
-    dispatch(logOutTC());
+    dispatch(loginThunks.logOut());
   }, []);
 
   return (

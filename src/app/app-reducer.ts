@@ -2,8 +2,8 @@ import { authAPI } from "api/todolist-api";
 
 import { handleNetworkServerError } from "utils/errors/handleNetworkServerError";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { authActions } from "features/login/login-reducer";
-import { handleServiceAppError } from "../utils/errors/handleServiceAppError";
+import { loginActions } from "features/login/login-reducer";
+import { handleServiceAppError } from "utils/errors/handleServiceAppError";
 
 export type RequestStatusType = "idle" | "loading" | "succeeded" | "failed";
 
@@ -25,12 +25,12 @@ export const isInitializeAppTC = createAsyncThunk(
     try {
       const res = await authAPI.me();
       if (res.data.resultCode === 0) {
-        dispatch(authActions.setIsLoggedIn(true));
+        dispatch(loginActions.setIsLoggedIn(true));
       } else {
         handleServiceAppError(res.data, dispatch);
       }
       return;
-    } catch (error: any) {
+    } catch (error) {
       handleNetworkServerError(error, dispatch);
     }
   }

@@ -4,9 +4,9 @@ import { handleNetworkServerError } from "utils/errors/handleNetworkServerError"
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { todolistsActions } from "features/todolistLists/todolists-reducer";
 import { LoginParamsType } from "api/api-types";
-import { handleServiceAppError } from "../../utils/errors/handleServiceAppError";
+import { handleServiceAppError } from "utils/errors/handleServiceAppError";
 
-export const loginTC = createAsyncThunk(
+const logIn = createAsyncThunk(
   "name/login",
   async (data: LoginParamsType, { dispatch }) => {
     dispatch(appActions.setAppStatus("loading"));
@@ -16,28 +16,25 @@ export const loginTC = createAsyncThunk(
         dispatch(appActions.setAppStatus("succeeded"));
         return;
       } else handleServiceAppError(res.data, dispatch);
-    } catch (error: any) {
+    } catch (error) {
       handleNetworkServerError(error, dispatch);
     }
   }
 );
 
-export const logOutTC = createAsyncThunk(
-  "name/logout",
-  async (arg, { dispatch }) => {
-    dispatch(appActions.setAppStatus("loading"));
-    try {
-      const res = await authAPI.logOut();
-      if (res.data.resultCode === 0) {
-        dispatch(appActions.setAppStatus("succeeded"));
-        dispatch(todolistsActions.clearTodosData());
-        return;
-      } else handleServiceAppError(res.data, dispatch);
-    } catch (error: any) {
-      handleNetworkServerError(error, dispatch);
-    }
+const logOut = createAsyncThunk("name/logout", async (arg, { dispatch }) => {
+  dispatch(appActions.setAppStatus("loading"));
+  try {
+    const res = await authAPI.logOut();
+    if (res.data.resultCode === 0) {
+      dispatch(appActions.setAppStatus("succeeded"));
+      dispatch(todolistsActions.clearTodosData());
+      return;
+    } else handleServiceAppError(res.data, dispatch);
+  } catch (error) {
+    handleNetworkServerError(error, dispatch);
   }
-);
+});
 
 const slice = createSlice({
   name: "auth",
@@ -50,14 +47,15 @@ const slice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(loginTC.fulfilled, (state) => {
+    builder.addCase(logIn.fulfilled, (state) => {
       state.isLoggedIn = true;
     });
-    builder.addCase(logOutTC.fulfilled, (state) => {
+    builder.addCase(logOut.fulfilled, (state) => {
       state.isLoggedIn = false;
     });
   },
 });
 
 export const loginReducer = slice.reducer;
-export const authActions = slice.actions;
+export const loginActions = slice.actions;
+export const loginThunks = { logIn, logOut };

@@ -4,15 +4,12 @@ import { AddItemForm } from "components/AddItemForm/AddItemForm";
 import { EditableSpan } from "components/EditableSpan/EditableSpan";
 import { IconButton } from "@material-ui/core";
 import { Delete } from "@material-ui/icons";
-import {
-  FilterValuesType,
-  TodoListDomainType,
-  todolistsActions,
-} from "features/todolistLists/todolists-reducer";
-import { useActions, useAppDispatch } from "app/store";
+import { TodoListDomainType } from "features/todolistLists/todolists-reducer";
+import { useActions } from "app/store";
 import { TasksContainer } from "features/todolistLists/todolists/tasks/TasksContainer";
 import { TaskType } from "api/api-types";
-import { tasksActions, todoListActions } from "./index";
+import { tasksThunk } from "features/todolistLists/todolists/tasks/tasks-actions";
+import { todoListThunk } from "features/todolistLists/todolists/todolist-actions";
 
 export type TodoListPropsType = {
   todoList: TodoListDomainType;
@@ -22,10 +19,8 @@ export type TodoListPropsType = {
 
 export const TodoList: React.FC<TodoListPropsType> = React.memo(
   ({ todoList, tasks }) => {
-    const dispatch = useAppDispatch();
-
-    const { removeTodolist, changeTodoListTitle } = useActions(todoListActions);
-    const { addTask } = useActions(tasksActions);
+    const { removeTodolist, changeTodoListTitle } = useActions(todoListThunk);
+    const { addTask } = useActions(tasksThunk);
 
     const addNewItem = useCallback(
       (title: string) => {

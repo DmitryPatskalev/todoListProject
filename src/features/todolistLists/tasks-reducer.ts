@@ -1,17 +1,8 @@
 import { todolistsActions } from "features/todolistLists/todolists-reducer";
 import { createSlice } from "@reduxjs/toolkit";
 import { TaskType } from "api/api-types";
-import {
-  addTask,
-  fetchTasks,
-  removeTask,
-  updateTask,
-} from "./todolists/tasks/tasks-actions";
-import {
-  addTodoList,
-  fetchTodoLists,
-  removeTodolist,
-} from "./todolists/todolist-actions";
+import { tasksThunk } from "./todolists/tasks/tasks-actions";
+import { todoListThunk } from "features/todolistLists/todolists/todolist-actions";
 
 export type TasksStateType = {
   [key: string]: Array<TaskType>;
@@ -24,17 +15,17 @@ const slice = createSlice({
   initialState: initialTasksState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(addTodoList.fulfilled, (state, action) => {
+    builder.addCase(todoListThunk.addTodoList.fulfilled, (state, action) => {
       if (action.payload) {
         state[action.payload.id] = [];
       }
     });
-    builder.addCase(removeTodolist.fulfilled, (state, action) => {
+    builder.addCase(todoListThunk.removeTodolist.fulfilled, (state, action) => {
       if (action.payload) {
         delete state[action.payload];
       }
     });
-    builder.addCase(fetchTodoLists.fulfilled, (state, action) => {
+    builder.addCase(todoListThunk.fetchTodoLists.fulfilled, (state, action) => {
       if (action.payload) {
         action.payload.forEach((tl) => (state[tl.id] = []));
       }
@@ -42,12 +33,10 @@ const slice = createSlice({
     builder.addCase(todolistsActions.clearTodosData, ({}) => {
       return {};
     });
-    builder.addCase(fetchTasks.fulfilled, (state, action) => {
-      if (action.payload) {
-        state[action.payload.todoListId] = action.payload.tasks;
-      }
+    builder.addCase(tasksThunk.fetchTasks.fulfilled, (state, action) => {
+      state[action.payload.todoListId] = action.payload.tasks;
     });
-    builder.addCase(removeTask.fulfilled, (state, action) => {
+    builder.addCase(tasksThunk.removeTask.fulfilled, (state, action) => {
       if (action.payload) {
         const tasks = state[action.payload.todoListId];
         const index = tasks.findIndex((t) => t.id === action.payload?.taskId);
@@ -56,13 +45,13 @@ const slice = createSlice({
         }
       }
     });
-    builder.addCase(addTask.fulfilled, (state, action) => {
+    builder.addCase(tasksThunk.addTask.fulfilled, (state, action) => {
       if (action.payload) {
         const tasks = state[action.payload.todoListId];
         tasks.unshift(action.payload);
       }
     });
-    builder.addCase(updateTask.fulfilled, (state, action) => {
+    builder.addCase(tasksThunk.updateTask.fulfilled, (state, action) => {
       if (action.payload) {
         const tasks = state[action.payload.todoListId];
         const index = tasks.findIndex((t) => t.id === action.payload?.taskId);

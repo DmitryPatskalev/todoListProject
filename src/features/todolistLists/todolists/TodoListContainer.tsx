@@ -11,8 +11,8 @@ import {
   selectTodolist,
 } from "features/todolistLists/todolist-tasks-selectors";
 import { selectIsLoggedIn } from "features/login/login-selectors";
-import { todoListActions } from "./index";
-import { addTodoList, fetchTodoLists } from "./todolist-actions";
+
+import { todoListThunk } from "./todolist-actions";
 
 type PropsType = {
   demo?: boolean;
@@ -23,7 +23,7 @@ export const TodoListContainer: React.FC<PropsType> = React.memo(({ demo }) => {
   const tasks = useAppSelector(selectTasks);
   const isLoggedIn = useAppSelector(selectIsLoggedIn);
 
-  const { addTodoList, fetchTodoLists } = useActions(todoListActions);
+  const { addTodoList, fetchTodoLists } = useActions(todoListThunk);
 
   useEffect(() => {
     if (demo || !isLoggedIn) {

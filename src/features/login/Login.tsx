@@ -10,9 +10,10 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import s from "./Login.module.css";
 import { useAppDispatch, useAppSelector } from "app/store";
-import { loginTC } from "features/login/login-reducer";
+
 import { Navigate } from "react-router-dom";
 import { selectIsLoggedIn } from "features/login/login-selectors";
+import { loginThunks } from "features/login/login-reducer";
 
 export const Login = () => {
   const dispatch = useAppDispatch();
@@ -34,7 +35,7 @@ export const Login = () => {
             password: Yup.string().required("Required"),
           })}
           onSubmit={(values) => {
-            dispatch(loginTC(values));
+            dispatch(loginThunks.logIn(values));
           }}
         >
           <Form>
