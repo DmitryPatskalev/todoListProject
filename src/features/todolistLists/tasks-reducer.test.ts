@@ -254,7 +254,7 @@ test("empty array should be added when set todolist", () => {
 test("task should be added for todolist", () => {
   const action = tasksThunk.fetchTasks.fulfilled(
     {
-      todoListId: todoListId1,
+      todolistId: todoListId1,
       tasks: startState[todoListId1],
     },
     "name/fetchTasks",

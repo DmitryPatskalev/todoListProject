@@ -1,12 +1,32 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { appActions } from "app/app-reducer";
 import { tasksAPI } from "api/todolist-api";
-import { handleNetworkServerError } from "utils/errors/handleNetworkServerError";
-import { ResultCode, UpdateDomainTaskModelType } from "api/api-types";
+
+import { ResultCode, TaskType, UpdateDomainTaskModelType } from "api/api-types";
 import { AppRootStateType } from "app/store";
 import { handleServiceAppError } from "utils/errors/handleServiceAppError";
+import { handleServerNetworkError } from "utils/errors/handleServerNetworkError";
+import { createAppAsyncThunk } from "utils/create-app-async-thunk";
 
-const fetchTasks = createAsyncThunk(
+const fetchTasks = createAppAsyncThunk<
+  // 1. То, что возвращает Thunk
+  { todolistId: string; tasks: TaskType[] },
+  string
+>("tasks/fetchTasks", async (todolistId, thunkAPI) => {
+  const { dispatch, rejectWithValue } = thunkAPI;
+  try {
+    dispatch(appActions.setAppStatus("loading"));
+    const res = await tasksAPI.getTasks(todolistId);
+    const tasks = res.data.items;
+    dispatch(appActions.setAppStatus("succeeded"));
+    return { tasks, todolistId };
+  } catch (error) {
+    handleServerNetworkError(error, dispatch);
+    return rejectWithValue(null);
+  }
+});
+
+const _fetchTasks = createAsyncThunk(
   "tasks/fetchTasks",
   async (todoListId: string, { dispatch, rejectWithValue }) => {
     try {
@@ -16,11 +36,12 @@ const fetchTasks = createAsyncThunk(
       dispatch(appActions.setAppStatus("succeeded"));
       return { todoListId, tasks };
     } catch (error) {
-      handleNetworkServerError(error, dispatch);
+      handleServerNetworkError(error, dispatch);
       return rejectWithValue(error);
     }
   }
 );
+
 const removeTask = createAsyncThunk(
   "name/removeTask",
   async (param: { todoListId: string; taskId: string }, { dispatch }) => {
@@ -34,7 +55,7 @@ const removeTask = createAsyncThunk(
         handleServiceAppError(res.data, dispatch);
       }
     } catch (error) {
-      handleNetworkServerError(error, dispatch);
+      handleServerNetworkError(error, dispatch);
     }
   }
 );
@@ -51,7 +72,7 @@ const addTask = createAsyncThunk(
         handleServiceAppError(res.data, dispatch);
       }
     } catch (error) {
-      handleNetworkServerError(error, dispatch);
+      handleServerNetworkError(error, dispatch);
     }
   }
 );
@@ -96,7 +117,7 @@ const updateTask = createAsyncThunk(
       }
       return param;
     } catch (error) {
-      handleNetworkServerError(error, dispatch);
+      handleServerNetworkError(error, dispatch);
     }
   }
 );

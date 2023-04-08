@@ -1,14 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { appActions } from "app/app-reducer";
 import { todoListAPI } from "api/todolist-api";
-import { handleNetworkServerError } from "utils/errors/handleNetworkServerError";
+import { handleServerNetworkError } from "utils/errors/handleServerNetworkError";
 
 import { todolistsActions } from "../todolists-reducer";
 import { ResultCode } from "api/api-types";
 import { handleServiceAppError } from "utils/errors/handleServiceAppError";
 import { tasksThunk } from "features/todolistLists/todolists/tasks/tasks-actions";
+import { createAppAsyncThunk } from "utils/create-app-async-thunk";
 
-const fetchTodoLists = createAsyncThunk(
+const fetchTodoLists = createAppAsyncThunk(
   "name/fetchTodoLists",
   async (arg, { dispatch }) => {
     try {
@@ -25,7 +26,7 @@ const fetchTodoLists = createAsyncThunk(
       }
     } catch (error) {
       console.log(error);
-      handleNetworkServerError(error, dispatch);
+      handleServerNetworkError(error, dispatch);
     }
   }
 );
@@ -48,7 +49,7 @@ const removeTodolist = createAsyncThunk(
         handleServiceAppError(res.data, dispatch);
       }
     } catch (error) {
-      handleNetworkServerError(error, dispatch);
+      handleServerNetworkError(error, dispatch);
     }
   }
 );
@@ -65,7 +66,7 @@ const addTodoList = createAsyncThunk(
         handleServiceAppError(res.data, dispatch);
       }
     } catch (error) {
-      handleNetworkServerError(error, dispatch);
+      handleServerNetworkError(error, dispatch);
     }
   }
 );
@@ -85,7 +86,7 @@ const changeTodoListTitle = createAsyncThunk(
         handleServiceAppError(res.data, dispatch);
       }
     } catch (error) {
-      handleNetworkServerError(error, dispatch);
+      handleServerNetworkError(error, dispatch);
     }
   }
 );

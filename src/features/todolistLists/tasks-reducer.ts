@@ -34,7 +34,7 @@ const slice = createSlice({
       return {};
     });
     builder.addCase(tasksThunk.fetchTasks.fulfilled, (state, action) => {
-      state[action.payload.todoListId] = action.payload.tasks;
+      state[action.payload.todolistId] = action.payload.tasks;
     });
     builder.addCase(tasksThunk.removeTask.fulfilled, (state, action) => {
       if (action.payload) {

@@ -1,6 +1,6 @@
 import { authAPI } from "api/todolist-api";
 
-import { handleNetworkServerError } from "utils/errors/handleNetworkServerError";
+import { handleServerNetworkError } from "utils/errors/handleServerNetworkError";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { loginActions } from "features/login/login-reducer";
 import { handleServiceAppError } from "utils/errors/handleServiceAppError";
@@ -31,7 +31,7 @@ export const isInitializeAppTC = createAsyncThunk(
       }
       return;
     } catch (error) {
-      handleNetworkServerError(error, dispatch);
+      handleServerNetworkError(error, dispatch);
     }
   }
 );

@@ -1,6 +1,6 @@
 import { appActions } from "app/app-reducer";
 import { authAPI } from "api/todolist-api";
-import { handleNetworkServerError } from "utils/errors/handleNetworkServerError";
+import { handleServerNetworkError } from "utils/errors/handleServerNetworkError";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { todolistsActions } from "features/todolistLists/todolists-reducer";
 import { LoginParamsType } from "api/api-types";
@@ -17,7 +17,7 @@ const logIn = createAsyncThunk(
         return;
       } else handleServiceAppError(res.data, dispatch);
     } catch (error) {
-      handleNetworkServerError(error, dispatch);
+      handleServerNetworkError(error, dispatch);
     }
   }
 );
@@ -32,7 +32,7 @@ const logOut = createAsyncThunk("name/logout", async (arg, { dispatch }) => {
       return;
     } else handleServiceAppError(res.data, dispatch);
   } catch (error) {
-    handleNetworkServerError(error, dispatch);
+    handleServerNetworkError(error, dispatch);
   }
 });
 
